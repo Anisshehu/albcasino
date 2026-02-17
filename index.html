@@ -2,140 +2,118 @@
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALB CASINO | Live Casino Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ALB CASINO | Luxury Live Experience</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/d4af37/000000?text=ALB">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --dark-bg: #050505; --card-bg: #111111; --text-gray: #a0a0a0; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #121212; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background: var(--dark-bg); color: white; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: white; overflow-x: hidden; }
 
-        /* Header Evolution Style */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 20px; font-weight: 800; color: var(--gold); letter-spacing: 3px; cursor: pointer; }
-        .user-panel { text-align: right; display: none; }
-        .credits-val { color: var(--gold); font-weight: 700; font-size: 16px; }
+        /* UI Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: rgba(0,0,0,0.9); border-bottom: 1px solid rgba(212,175,55,0.3); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 18px; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
+        .balance-box { text-align: right; }
+        .balance-box span { display: block; font-size: 10px; color: #888; }
+        .balance-amount { color: var(--gold); font-weight: 800; font-size: 18px; }
 
-        /* Page Management */
-        .page { display: none; padding: 40px 5%; animation: fadeIn 0.4s ease; min-height: 80vh; }
+        /* Pages */
+        .page { display: none; padding: 20px; animation: fadeIn 0.5s ease; }
         .active { display: block; }
-
-        /* Auth Screen */
-        .auth-container { max-width: 400px; margin: 40px auto; background: var(--card-bg); padding: 40px; border-radius: 8px; border-top: 4px solid var(--gold); text-align: center; }
-        input { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 4px; }
-        
-        /* Buttons */
-        .btn-gold { background: var(--gold); color: black; border: none; padding: 15px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; letter-spacing: 1px; transition: 0.3s; margin-top: 10px; }
-        .btn-gold:hover { background: #fff; transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 20px; cursor: pointer; text-transform: uppercase; font-size: 11px; margin: 5px; border-radius: 4px; }
-
-        /* Lobby Grid */
-        .section-title { font-weight: 300; font-size: 28px; letter-spacing: 2px; margin-bottom: 30px; border-left: 4px solid var(--gold); padding-left: 15px; }
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
-        .game-card { background: var(--card-bg); border: 1px solid #222; padding: 30px 10px; border-radius: 8px; text-align: center; transition: 0.3s; cursor: pointer; }
-        .game-card:hover { border-color: var(--gold); background: #1a1a1a; }
-        .game-card span { display: block; font-size: 40px; margin-bottom: 15px; }
-
-        /* Game Area */
-        .play-box { background: #000; border: 1px solid var(--gold); padding: 50px 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
-        #game-output { font-size: 45px; margin-bottom: 20px; font-weight: 800; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
-
-        /* Info Pages */
-        .info-page h1 { color: var(--gold); margin-bottom: 20px; }
-        .info-page p { color: var(--text-gray); margin-bottom: 15px; font-size: 15px; }
-        .contact-form { background: var(--card-bg); padding: 30px; border-radius: 8px; margin-top: 20px; }
-
-        /* Footer */
-        footer { background: #000; padding: 60px 5% 30px; border-top: 1px solid #1a1a1a; text-align: center; margin-top: 50px; }
-        .footer-nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
-        .footer-nav a { color: var(--text-gray); text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-nav a:hover { color: var(--gold); }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Auth */
+        .auth-card { max-width: 350px; margin: 80px auto; background: var(--card); padding: 40px; border-radius: 15px; border: 1px solid #222; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
+
+        /* Lobby */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .game-card { background: var(--card); border: 1px solid #222; padding: 25px 10px; border-radius: 12px; text-align: center; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        .game-card:active { transform: scale(0.95); border-color: var(--gold); }
+        .game-card i { font-size: 35px; display: block; margin-bottom: 10px; }
+
+        /* Visual Games Styling */
+        .table-area { background: radial-gradient(circle, #004d26 0%, #002411 100%); border: 8px solid #3d2b1f; border-radius: 50px; padding: 40px 10px; margin: 20px 0; position: relative; min-height: 300px; box-shadow: inset 0 0 50px #000; }
+        
+        /* Rrotullimi i Ruletës */
+        .roulette-wheel { width: 180px; height: 180px; border-radius: 50%; border: 10px solid #333; margin: 0 auto; position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(#e00 0deg 18deg, #000 18deg 36deg, #e00 36deg 54deg, #000 54deg 72deg, #e00 72deg 90deg, #000 90deg 108deg, #e00 108deg 126deg, #000 126deg 144deg, #e00 144deg 162deg, #000 162deg 180deg, #e00 180deg 198deg, #000 198deg 216deg, #e00 216deg 234deg, #000 234deg 252deg, #e00 252deg 270deg, #000 270deg 288deg, #e00 288deg 306deg, #000 306deg 324deg, #e00 324deg 342deg, #000 342deg 360deg); }
+        .roulette-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid gold; z-index: 10; }
+
+        /* Letrat e Blackjack */
+        .card-visual { width: 60px; height: 85px; background: white; border-radius: 5px; display: inline-block; margin: 5px; color: black; font-weight: bold; font-size: 20px; line-height: 85px; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); animation: deal 0.5s ease-out; }
+        @keyframes deal { from { transform: translateY(-200px) rotate(20deg); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Slot Machine */
+        .reels-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .reel { width: 70px; height: 100px; background: #000; border: 2px solid var(--gold); border-radius: 10px; font-size: 40px; line-height: 100px; overflow: hidden; }
+
+        /* Buttons */
+        .btn-main { background: var(--gold); color: black; border: none; padding: 15px; width: 100%; font-weight: 800; border-radius: 5px; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+        .btn-main:disabled { background: #444; color: #888; }
+        
+        footer { padding: 40px 20px; text-align: center; border-top: 1px solid #222; margin-top: 40px; }
+        .footer-links a { color: #666; text-decoration: none; margin: 0 10px; font-size: 11px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo" onclick="nav('lobby')">ALB CASINO</div>
-    <div class="user-panel" id="user-stats">
-        <span id="stat-name" style="font-size: 10px; display: block; color: var(--text-gray);"></span>
-        <span id="stat-credits" class="credits-val">$0</span>
+    <div class="logo">ALB CASINO</div>
+    <div class="balance-box" id="ui-stats" style="display:none;">
+        <span id="player-name">USER</span>
+        <div class="balance-amount" id="player-credits">$0</div>
     </div>
 </header>
 
-<section id="auth" class="page active">
-    <div class="auth-container">
-        <h2 style="letter-spacing: 2px; margin-bottom: 20px;">HYRJA</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button class="btn-gold" onclick="authenticate()">Hyr në Platformë</button>
-        <p style="font-size: 11px; margin-top: 20px; color: #555;">Kjo është një platformë demo. Ju lutem luani me përgjegjësi.</p>
+<section id="page-auth" class="page active">
+    <div class="auth-card">
+        <h2 style="color:var(--gold); margin-bottom: 20px; letter-spacing: 2px;">AUTHENTICATION</h2>
+        <input type="text" id="in-user" placeholder="Username">
+        <input type="password" id="in-pass" placeholder="Password">
+        <button class="btn-main" onclick="auth()">ENTER LOBBY</button>
     </div>
 </section>
 
-<section id="lobby" class="page">
-    <h1 class="section-title">LIVE GAMES LOBBY</h1>
+<section id="page-lobby" class="page">
+    <h1 style="font-weight: 300; margin-bottom: 20px;">LIVE LOBBY</h1>
     <div class="game-grid">
-        <div class="game-card" onclick="openGame('Slots')"><span>🎰</span>SLOTS</div>
-        <div class="game-card" onclick="openGame('Blackjack')"><span>🃏</span>BLACKJACK</div>
-        <div class="game-card" onclick="openGame('Roulette')"><span>🎡</span>ROULETTE</div>
-        <div class="game-card" onclick="openGame('Bingo')"><span>🎱</span>BINGO</div>
+        <div class="game-card" onclick="openGame('Slots')"><i>🎰</i>SLOTS</div>
+        <div class="game-card" onclick="openGame('Blackjack')"><i>🃏</i>BLACKJACK</div>
+        <div class="game-card" onclick="openGame('Roulette')"><i>🎡</i>ROULETTE</div>
+        <div class="game-card" onclick="openGame('Bingo')"><i>🎱</i>BINGO</div>
     </div>
-    <div style="margin-top: 40px; text-align: center;">
-        <button class="btn-outline" onclick="collectDaily()">Bonus Ditor ($200)</button>
-    </div>
+    <button class="btn-main" style="background:none; border:1px solid var(--gold); color:var(--gold); margin-top:30px;" onclick="daily()">GIFT BOX ($200)</button>
 </section>
 
-<section id="game-room" class="page">
-    <h1 class="section-title" id="room-title">GAME</h1>
-    <div class="play-box">
-        <div id="game-output">READY</div>
-        <div id="game-controls"></div>
-    </div>
-    <button class="btn-outline" onclick="nav('lobby')">← Kthehu në Lobby</button>
+<section id="page-game" class="page">
+    <h2 id="game-title" style="color:var(--gold); margin-bottom:15px; text-transform:uppercase;">GAME</h2>
+    <div class="table-area" id="table">
+        </div>
+    <div id="controls"></div>
+    <button class="btn-main" style="background:none; color:#888; font-size:10px; margin-top:20px;" onclick="nav('page-lobby')">BACK TO LOBBY</button>
 </section>
 
-<section id="about" class="page info-page">
-    <h1>About ALB CASINO</h1>
-    <p>ALB CASINO është destinacioni numër një për lojërat Live Casino, i frymëzuar nga teknologjia dhe dizajni i Evolution Gaming.</p>
-    <p>Ne ofrojmë një eksperiencë luksoze dhe të sigurt për të gjithë lojtarët tanë në mbarë botën.</p>
-</section>
-
-<section id="privacy" class="page info-page">
-    <h1>Privacy Policy</h1>
-    <p>Siguria juaj është prioriteti ynë. Të gjitha të dhënat tuaja enkriptohen me teknologjinë më të fundit SSL.</p>
-    <p>Ne nuk ndajmë asnjë informacion personal me palë të treta pa pëlqimin tuaj të plotë.</p>
-</section>
-
-<section id="contact" class="page info-page">
-    <h1>Na Kontaktoni</h1>
-    <div class="contact-form">
-        <input type="text" placeholder="Emri juaj">
-        <input type="email" placeholder="Email Adresa">
-        <textarea style="width:100%; height:100px; background:#000; border:1px solid #333; color:white; padding:15px; margin:10px 0;" placeholder="Mesazhi juaj..."></textarea>
-        <button class="btn-gold" onclick="alert('Mesazhi u dërgua! Do t\'ju kontaktojmë së shpejti.')">Dërgo Mesazhin</button>
-    </div>
+<section id="page-info" class="page">
+    <div id="info-content" style="text-align:left; color:#ccc;"></div>
+    <button class="btn-main" onclick="nav('page-lobby')">KTHEHU</button>
 </section>
 
 <footer>
-    <div class="footer-nav">
-        <a href="#" onclick="nav('about')">About Us</a>
-        <a href="#" onclick="nav('contact')">Contact</a>
-        <a href="#" onclick="nav('privacy')">Privacy Policy</a>
-        <a href="#" onclick="location.reload()">Logout</a>
+    <div class="footer-links">
+        <a href="#" onclick="showInfo('about')">About Us</a>
+        <a href="#" onclick="showInfo('contact')">Contact</a>
+        <a href="#" onclick="showInfo('privacy')">Privacy</a>
     </div>
-    <p style="font-size: 11px; color: #333; letter-spacing: 1px;">© 2026 ALB CASINO | ALL RIGHTS RESERVED | INSPIRED BY EVOLUTION</p>
+    <p style="font-size: 9px; color: #444; margin-top: 20px;">© 2026 ALB CASINO | Absolute Legend Mode</p>
 </footer>
 
 <script>
-    let users = JSON.parse(localStorage.getItem('alb_evolution_db')) || {};
-    let currentUser = null;
+    let db = JSON.parse(localStorage.getItem('alb_v2')) || {};
+    let current = null;
 
     function nav(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -143,104 +121,125 @@
         window.scrollTo(0,0);
     }
 
-    function authenticate() {
-        let u = document.getElementById('username').value;
-        let p = document.getElementById('password').value;
-        if(u.length < 2) return alert("Ju lutem shkruani një Username!");
-        
-        if(!users[u]) {
-            users[u] = { pass: p, credits: 1000, lastBonus: 0 };
-        } else if(users[u].pass !== p) {
-            return alert("Fjalëkalim i gabuar!");
-        }
-        
-        currentUser = u;
-        save();
-        document.getElementById('user-stats').style.display = 'block';
-        updateUI();
-        nav('lobby');
+    function auth() {
+        let u = document.getElementById('in-user').value;
+        let p = document.getElementById('in-pass').value;
+        if(u.length < 2) return alert("Shkruaj emrin!");
+        if(!db[u]) db[u] = { pass: p, credits: 1000, xp: 0, last: 0 };
+        current = u;
+        document.getElementById('ui-stats').style.display = 'block';
+        sync();
+        nav('page-lobby');
     }
 
-    function updateUI() {
-        document.getElementById('stat-name').innerText = currentUser.toUpperCase();
-        document.getElementById('stat-credits').innerText = "$" + users[currentUser].credits;
-    }
-
-    function save() {
-        localStorage.setItem('alb_evolution_db', JSON.stringify(users));
-    }
-
-    function collectDaily() {
-        let u = users[currentUser];
-        if(Date.now() - u.lastBonus > 86400000) {
-            u.credits += 200; u.lastBonus = Date.now();
-            alert("Shtuat $200 në balancën tuaj!"); updateUI(); save();
-        } else alert("Bonusin mund ta merrni vetëm një herë në ditë!");
+    function sync() {
+        document.getElementById('player-name').innerText = current.toUpperCase();
+        document.getElementById('player-credits').innerText = "$" + db[current].credits;
+        localStorage.setItem('alb_v2', JSON.stringify(db));
     }
 
     function openGame(type) {
-        nav('game-room');
-        document.getElementById('room-title').innerText = type.toUpperCase();
-        const out = document.getElementById('game-output');
-        const ctrl = document.getElementById('game-controls');
-        ctrl.innerHTML = "";
-        out.innerText = "MIRËSEVINI";
+        nav('page-game');
+        document.getElementById('game-title').innerText = type;
+        const table = document.getElementById('table');
+        const ctrl = document.getElementById('controls');
+        table.innerHTML = ""; ctrl.innerHTML = "";
 
-        if(type === 'Slots') {
-            out.innerText = "🎰 | 🎰 | 🎰";
-            ctrl.innerHTML = `<button class="btn-gold" onclick="spinSlots()">SPIN ($10)</button>`;
-        } 
-        else if(type === 'Blackjack') {
-            out.innerText = "BLACKJACK TABLE";
-            ctrl.innerHTML = `<button class="btn-gold" onclick="playBJ()">DEAL HAND ($50)</button>`;
+        if(type === 'Roulette') {
+            table.innerHTML = `<div class="roulette-pointer"></div><div class="roulette-wheel" id="wheel"></div><div id="res" style="margin-top:20px; font-weight:800;"></div>`;
+            ctrl.innerHTML = `<button class="btn-main" onclick="playR('Red')" style="background:#e00; margin-bottom:5px;">RED</button><button class="btn-main" onclick="playR('Black')" style="background:#000; border:1px solid #333;">BLACK</button>`;
         }
-        else if(type === 'Roulette') {
-            out.innerText = "CHOOSE COLOR";
-            ctrl.innerHTML = `<button class="btn-gold" style="background:#b22222; margin-bottom:10px" onclick="spinR('Red')">RED</button>
-                             <button class="btn-gold" style="background:#000; border:1px solid #333" onclick="spinR('Black')">BLACK</button>`;
+        else if(type === 'Blackjack') {
+            table.innerHTML = `<div id="dealer-side">Dealer: ?</div><div id="player-side" style="margin-top:40px;">Ti: ?</div>`;
+            ctrl.innerHTML = `<button class="btn-main" id="deal-btn" onclick="startBJ()">DEAL ($50)</button><div id="bj-act" style="display:none;"><button class="btn-main" onclick="bjHit()" style="width:48%; display:inline-block;">HIT</button><button class="btn-main" onclick="bjStay()" style="width:48%; display:inline-block; margin-left:2%;">STAY</button></div>`;
+        }
+        else if(type === 'Slots') {
+            table.innerHTML = `<div class="reels-container"><div class="reel" id="r1">🎰</div><div class="reel" id="r2">🎰</div><div class="reel" id="r3">🎰</div></div>`;
+            ctrl.innerHTML = `<button class="btn-main" id="spin-btn" onclick="playSlots()">SPIN ($10)</button>`;
         }
         else if(type === 'Bingo') {
-            out.innerText = "BINGO BALLS";
-            ctrl.innerHTML = `<button class="btn-gold" onclick="drawBingo()">DRAW BALL ($20)</button>`;
+            table.innerHTML = `<div style="width:120px; height:120px; border:5px solid gold; border-radius:50%; margin: 0 auto; line-height:110px; font-size:50px; background:#000;" id="bingo-ball">?</div>`;
+            ctrl.innerHTML = `<button class="btn-main" onclick="playBingo()">TËRHIQ ($20)</button>`;
         }
     }
 
-    // GAME LOGICS
-    function spinSlots() {
-        let u = users[currentUser]; if(u.credits < 10) return alert("Kredi të pamjaftueshme!");
-        u.credits -= 10;
-        let s = ['🍒','💎','7️⃣','🔔'];
-        let r = [s[Math.floor(Math.random()*4)], s[Math.floor(Math.random()*4)], s[Math.floor(Math.random()*4)]];
-        document.getElementById('game-output').innerText = r.join(" | ");
-        if(r[0] === r[1] && r[1] === r[2]) { u.credits += 500; alert("JACKPOT! +$500"); }
-        updateUI(); save();
+    // --- LOGJIKA E RREGULLUAR VIZUALE ---
+
+    function playR(bet) {
+        if(db[current].credits < 20) return;
+        db[current].credits -= 20; sync();
+        const wheel = document.getElementById('wheel');
+        const deg = 1800 + Math.floor(Math.random() * 360);
+        wheel.style.transform = `rotate(${deg}deg)`;
+        
+        setTimeout(() => {
+            let win = Math.random() > 0.5 ? 'Red' : 'Black';
+            if(bet === win) { db[current].credits += 40; alert("FITORE! Rrota ndaloi në " + win); }
+            else { alert("HUMBJE! Ishte " + win); }
+            sync();
+        }, 4000);
     }
 
-    function playBJ() {
-        let u = users[currentUser]; if(u.credits < 50) return alert("Kredi të pamjaftueshme!");
-        u.credits -= 50;
-        let score = Math.floor(Math.random()*11) + 11;
-        document.getElementById('game-output').innerText = "SCORE: " + score;
-        if(score > 18) { u.credits += 100; alert("FITORE! +$100"); } else { alert("DEALER WINS!"); }
-        updateUI(); save();
+    function startBJ() {
+        if(db[current].credits < 50) return;
+        db[current].credits -= 50; sync();
+        document.getElementById('deal-btn').style.display = 'none';
+        document.getElementById('bj-act').style.display = 'block';
+        window.bjP = Math.floor(Math.random()*10)+12;
+        document.getElementById('player-side').innerHTML = `Ti: ${window.bjP}<br><div class="card-visual">J</div><div class="card-visual">${window.bjP-10}</div>`;
     }
 
-    function spinR(color) {
-        let u = users[currentUser]; if(u.credits < 20) return alert("Kredi të pamjaftueshme!");
-        u.credits -= 20;
-        let res = Math.random() > 0.5 ? 'Red' : 'Black';
-        document.getElementById('game-output').innerText = res.toUpperCase();
-        if(color === res) { u.credits += 40; alert("FITORE! +$40"); } else { alert("HUMBJE!"); }
-        updateUI(); save();
+    function bjStay() {
+        let d = Math.floor(Math.random()*10)+13;
+        alert("Dealer kishte: " + d);
+        if(window.bjP > d || d > 21) { db[current].credits += 100; alert("FITORE!"); }
+        else { alert("HUMBJE!"); }
+        openGame('Blackjack'); sync();
     }
 
-    function drawBingo() {
-        let u = users[currentUser]; if(u.credits < 20) return alert("Kredi të pamjaftueshme!");
-        u.credits -= 20;
-        let num = Math.floor(Math.random()*90) + 1;
-        document.getElementById('game-output').innerText = "NUMBER: " + num;
-        if(num % 10 === 0) { u.credits += 100; alert("LUCKY NUMBER! +$100"); }
-        updateUI(); save();
+    function playSlots() {
+        if(db[current].credits < 10) return;
+        db[current].credits -= 10; sync();
+        let syms = ['💎','🍒','🔔','7️⃣','🍋'];
+        let i = 0;
+        let iv = setInterval(() => {
+            document.getElementById('r1').innerText = syms[Math.floor(Math.random()*5)];
+            document.getElementById('r2').innerText = syms[Math.floor(Math.random()*5)];
+            document.getElementById('r3').innerText = syms[Math.floor(Math.random()*5)];
+            i++;
+            if(i > 10) {
+                clearInterval(iv);
+                if(document.getElementById('r1').innerText === document.getElementById('r2').innerText) {
+                    db[current].credits += 100; alert("FITORE!");
+                }
+                sync();
+            }
+        }, 100);
+    }
+
+    function playBingo() {
+        if(db[current].credits < 20) return;
+        db[current].credits -= 20;
+        let n = Math.floor(Math.random()*90)+1;
+        document.getElementById('bingo-ball').innerText = n;
+        if(n % 10 === 0) { db[current].credits += 100; alert("BONUS BINGO!"); }
+        sync();
+    }
+
+    function daily() {
+        let u = db[current];
+        if(Date.now() - u.last > 86400000) {
+            u.credits += 200; u.last = Date.now();
+            alert("More $200!"); sync();
+        } else alert("Kthehu nesër!");
+    }
+
+    function showInfo(t) {
+        nav('page-info');
+        const c = document.getElementById('info-content');
+        if(t === 'about') c.innerHTML = "<h2>About ALB CASINO</h2><p>Ne jemi platforma lider për argëtim live...</p>";
+        if(t === 'contact') c.innerHTML = "<h2>Contact</h2><p>Email: support@albcasino.com<br>Viber/WhatsApp: +355 XX XXX XXXX</p>";
+        if(t === 'privacy') c.innerHTML = "<h2>Privacy</h2><p>Të dhënat tuaja janë 100% të sigurta me enkriptimin tonë SSL.</p>";
     }
 </script>
 </body>
