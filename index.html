@@ -3,212 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALB CASINO | Official Live Studio</title>
+    <title>ALB CASINO | Official App</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/W7S5XmX.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #000000; --surface: #121212; --green: #004d26; --red: #e00; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        :root { --blue: #003399; --dark-blue: #002266; --gold: #d4af37; --bg: #f4f7ff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--bg); color: white; -webkit-user-select: none; overflow-x: hidden; padding-bottom: 90px; }
+        body { background: var(--bg); color: #333; overflow-x: hidden; padding-bottom: 80px; }
 
         /* SPLASH SCREEN */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; transition: 0.8s ease-out;
-        }
-        .splash-logo {
-            font-size: 30px; font-weight: 900; color: var(--gold); letter-spacing: 5px;
-            text-shadow: 0 0 20px rgba(212,175,55,0.5); animation: pulse 2s infinite;
-        }
-        .loader {
-            width: 40px; height: 40px; border: 3px solid #111; border-top: 3px solid var(--gold);
-            border-radius: 50%; margin-top: 20px; animation: spin 1s linear infinite;
-        }
-
-        /* HEADER & UI */
-        header { position: sticky; top: 0; background: rgba(0,0,0,0.95); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; z-index: 1000; }
-        .logo-text { font-weight: 900; color: var(--gold); letter-spacing: 2px; font-size: 18px; }
-        .balance-pill { background: #1a1a1a; padding: 6px 15px; border-radius: 20px; border: 1px solid var(--gold); }
-        .balance-pill span { color: var(--gold); font-weight: 800; font-size: 14px; }
-
-        /* ANIMATIONS */
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.8s; }
+        .splash-logo { font-size: 30px; font-weight: 900; color: var(--gold); letter-spacing: 5px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
+
+        /* HEADER & NAVIGATION */
+        header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .logo { font-weight: 900; font-size: 20px; letter-spacing: 1px; }
+        .balance-pill { background: rgba(255,255,255,0.2); padding: 6px 15px; border-radius: 20px; font-weight: 800; border: 1px solid rgba(255,255,255,0.3); }
+
+        .sub-nav { display: flex; background: white; border-bottom: 1px solid #ddd; overflow-x: auto; sticky; top: 54px; z-index: 900; }
+        .sub-item { padding: 15px 20px; font-size: 12px; font-weight: bold; color: var(--blue); text-align: center; white-space: nowrap; opacity: 0.6; }
+        .sub-item.active { opacity: 1; border-bottom: 3px solid var(--blue); }
+
+        /* PAGE SYSTEM */
+        .page { display: none; padding: 15px; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PAGES */
-        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
-        .active { display: block; }
+        /* GAME ROWS (CASINO & LOTTERY) */
+        .game-row { background: white; border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .game-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #eee; object-fit: cover; }
+        .game-info { flex: 1; margin-left: 15px; }
+        .game-title { font-weight: bold; color: var(--blue); font-size: 15px; }
+        .game-subtitle { font-size: 11px; color: #777; margin-top: 2px; }
+        .btn-play { border: 2px solid var(--blue); color: var(--blue); background: transparent; padding: 6px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; }
 
-        /* GAME CARDS */
-        .game-card { background: var(--surface); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; margin-bottom: 20px; }
-        .game-banner { height: 170px; background-size: cover; background-position: center; position: relative; }
-        .live-tag { position: absolute; top: 12px; left: 12px; background: var(--red); color: white; font-size: 10px; padding: 3px 10px; border-radius: 4px; font-weight: 800; }
+        /* SCRATCH CARD MODAL */
+        #scratch-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        canvas { background: #eee; border-radius: 10px; cursor: crosshair; touch-action: none; }
 
-        /* CHAT */
-        .chat-box { height: 110px; background: rgba(0,0,0,0.7); margin-top: 15px; border-radius: 12px; padding: 10px; overflow-y: hidden; border: 1px solid #333; }
-        .chat-msg { font-size: 11px; margin-bottom: 4px; }
-        .chat-msg b { color: var(--gold); }
+        /* SPORTS BETTING */
+        .match-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+        .odds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .odd-box { background: #f0f4f8; border: 1px solid var(--blue); padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; color: var(--blue); font-size: 14px; }
 
-        /* BUTTONS */
-        .play-btn { background: var(--gold); color: #000; padding: 15px; border-radius: 10px; font-weight: 900; font-size: 14px; border: none; cursor: pointer; text-transform: uppercase; width: 100%; }
+        /* POKER TABLE */
+        .poker-item { background: #fffde7; border: 1px solid #fbc02d; padding: 12px; border-radius: 8px; margin-bottom: 10px; }
 
-        /* NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0 35px; border-top: 1px solid #222; z-index: 2000; }
-        .nav-item { color: #555; font-size: 10px; font-weight: 700; background: none; border: none; }
-        .nav-item.active-nav { color: var(--gold); }
-        .nav-item i { display: block; font-size: 24px; margin-bottom: 5px; font-style: normal; }
+        /* PROFILE & HISTORY */
+        .history-item { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; border-left: 4px solid var(--blue); }
+        .win { border-left-color: #28a745; }
+        .loss { border-left-color: #dc3545; }
 
-        /* TABLE */
-        .casino-table { background: radial-gradient(circle, var(--green) 0%, #002411 100%); min-height: 380px; border-radius: 25px; border: 8px solid #2a1a0a; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 100px #000; }
+        /* BOTTOM NAV BAR */
+        .bottom-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0 25px; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-btn { background: none; border: none; color: var(--blue); font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; opacity: 0.5; }
+        .nav-btn.active { opacity: 1; }
+        .nav-btn i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
     </style>
 </head>
 <body>
 
-<div id="splash-screen">
+<div id="splash">
     <div class="splash-logo">ALB CASINO</div>
-    <div class="loader"></div>
-    <p style="margin-top: 20px; font-size: 10px; color: #444; letter-spacing: 2px;">SECURE CONNECTION...</p>
+    <p style="color: #444; margin-top: 10px; font-size: 12px; letter-spacing: 2px;">LOADING STUDIO...</p>
 </div>
 
 <header>
-    <div class="logo-text">ALB CASINO</div>
-    <div class="balance-pill" id="ui-balance" style="display:none;">
-        <span id="top-bal">$0</span>
-    </div>
+    <div class="logo">ALB CASINO</div>
+    <div class="balance-pill" id="main-bal">$1,000.00</div>
 </header>
 
-<section id="page-auth" class="page active">
-    <div style="text-align:center; padding-top: 30px;">
-        <div style="background:var(--surface); padding:40px 25px; border-radius:25px; border: 1px solid #222; margin: 0 15px;">
-            <h2 style="color:var(--gold); margin-bottom:30px; font-weight:900;">LIVE LOGIN</h2>
-            <input type="text" id="username" placeholder="Username" style="width:100%; padding:15px; background:#000; border:1px solid #333; color:white; border-radius:10px; margin-bottom:15px;">
-            <input type="password" id="password" placeholder="Password" style="width:100%; padding:15px; background:#000; border:1px solid #333; color:white; border-radius:10px; margin-bottom:25px;">
-            <button onclick="login()" class="play-btn">ENTER STUDIO</button>
+<div class="sub-nav">
+    <div class="sub-item active" onclick="nav('casino', this)">LIVE CASINO</div>
+    <div class="sub-item" onclick="nav('lottery', this)">LOTTERIES</div>
+    <div class="sub-item" onclick="nav('sports', this)">SPORTS</div>
+    <div class="sub-item" onclick="nav('poker', this)">POKER</div>
+</div>
+
+<section id="casino" class="page active">
+    <div class="game-row">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" class="game-img">
+        <div class="game-info"><div class="game-title">Crazy Time Live</div><div class="game-subtitle">20¢ to $3,000 | 12K Players</div></div>
+        <button class="btn-play" onclick="openGame('Crazy Time')">Play</button>
+    </div>
+    <div class="game-row">
+        <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=100" class="game-img">
+        <div class="game-info"><div class="game-title">Lightning Roulette</div><div class="game-subtitle">20¢ to $5,000 | 1.5K Players</div></div>
+        <button class="btn-play" onclick="openGame('Roulette')">Play</button>
+    </div>
+</section>
+
+<section id="lottery" class="page">
+    <div class="game-row">
+        <div class="game-img" style="background:linear-gradient(45deg, #003399, #00aaff); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">Gv</div>
+        <div class="game-info"><div class="game-title">Gagnant à vie</div><div class="game-subtitle">$5.00 - Scratch to Win!</div></div>
+        <button class="btn-play" onclick="buyTicket('Gagnant à vie', 5)">Buy</button>
+    </div>
+</section>
+
+<section id="page-sports" class="page">
+    <div class="match-card">
+        <div style="font-size:12px; color:#666; margin-bottom:5px;">Champions League • 21:00</div>
+        <div style="font-weight:bold;">Real Madrid vs Man. City</div>
+        <div class="odds-grid">
+            <div class="odd-box" onclick="placeBet('Real Madrid', 2.40)">1<br>2.40</div>
+            <div class="odd-box" onclick="placeBet('Draw', 3.50)">X<br>3.50</div>
+            <div class="odd-box" onclick="placeBet('Man. City', 2.15)">2<br>2.15</div>
         </div>
     </div>
 </section>
 
-<section id="page-lobby" class="page">
-    <div class="game-card">
-        <span class="live-tag">● LIVE STUDIO</span>
-        <div class="game-banner" style="background-image: url('https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=400');"></div>
-        <div style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
-            <div><div style="font-weight:700;">BLACKJACK VIP</div><p style="font-size:10px; color:var(--gold);">Elena (Table 01)</p></div>
-            <button class="play-btn" style="width:auto; padding:10px 20px;" onclick="openGame('Blackjack', 'Elena', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150')">PLAY</button>
-        </div>
+<section id="page-poker" class="page">
+    <div class="poker-item">
+        <div style="font-weight:bold; color:var(--blue);">Texas Holdem Turbo</div>
+        <div style="font-size:12px; margin:5px 0;">Buy-in: $10.00 + $1.00</div>
+        <button class="btn-play" style="width:100%; border-radius:5px;" onclick="alert('Regjistrimi u krye!')">Register</button>
     </div>
 </section>
 
-<section id="page-rank" class="page">
-    <h2 style="color:var(--gold); margin-bottom:20px;">RANKING</h2>
-    <div id="rank-display" style="background:var(--surface); border-radius:15px; overflow:hidden;"></div>
+<section id="page-profile" class="page">
+    <div style="text-align:center; padding:20px;">
+        <div style="width:70px; height:70px; background:var(--blue); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; margin:0 auto; font-weight:bold;">A</div>
+        <h3 style="margin-top:10px;">User_777</h3>
+    </div>
+    <h4 style="margin:10px 0;">Transaction History</h4>
+    <div id="history-list"></div>
 </section>
 
-<section id="page-game" class="page">
-    <div class="casino-table" id="table-view"></div>
-    <div class="chat-box" id="chat-content"></div>
-    <div id="game-ctrl" style="margin-top:15px;"></div>
-    <button onclick="nav('page-lobby')" style="width:100%; background:none; border:none; color:#555; margin-top:15px; font-size:11px;">CLOSE TABLE</button>
-</section>
+<div id="scratch-overlay">
+    <h2 id="scr-title">Scratch & Win!</h2>
+    <div style="position:relative; margin:20px 0;">
+        <div id="prize-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:black; font-size:30px; font-weight:900; z-index:1;">$0.00</div>
+        <canvas id="scratch-canvas" width="280" height="150" style="position:relative; z-index:2;"></canvas>
+    </div>
+    <button id="close-scr" style="display:none; padding:12px 30px; border-radius:25px; background:white; color:var(--blue); border:none; font-weight:bold;">CLAIM PRIZE</button>
+</div>
 
-<nav class="bottom-nav" id="bot-nav" style="display:none;">
-    <button class="nav-item active-nav" onclick="nav('page-lobby')"><i>🏠</i>Lobby</button>
-    <button class="nav-item" onclick="showRank()"><i>🏆</i>Rank</button>
-    <button class="nav-item" onclick="getBonus()"><i>🎁</i>Bonus</button>
-    <button class="nav-item" onclick="location.reload()"><i>🔒</i>Out</button>
+<nav class="bottom-bar">
+    <button class="nav-btn active" onclick="nav('casino', this)"><i>🏠</i>Home</button>
+    <button class="nav-btn" onclick="nav('lottery', this)"><i>🎰</i>Games</button>
+    <button class="nav-btn" onclick="nav('sports', this)"><i>⚽</i>Sports</button>
+    <button class="nav-btn" onclick="showProfile(this)"><i>👤</i>Profile</button>
 </nav>
 
 <script>
-    let users = JSON.parse(localStorage.getItem('alb_final_v1')) || {};
-    let current = null;
-    let chatInterval;
+    let bal = 1000.00;
+    let history = [];
 
-    const bots = [
-        {name: "X_Albania_X", credits: 154000},
-        {name: "King_Tirana", credits: 92000},
-        {name: "Vlora_Queen", credits: 45000}
-    ];
+    // Splash Loader
+    window.onload = () => { setTimeout(() => document.getElementById('splash').style.opacity = '0', 2000); setTimeout(() => document.getElementById('splash').style.display = 'none', 2800); };
 
-    const messages = ["Bravo Elena!", "Fituam!", "Më doli Blackjack!", "Suksese të gjithëve", "Elena je yll", "Uff e humba"];
-
-    // HIDE SPLASH SCREEN
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-            }, 800);
-        }, 2500);
-    });
-
-    function nav(id) {
-        clearInterval(chatInterval);
+    function nav(id, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
-        if(id === 'page-lobby') document.querySelector('.nav-item:nth-child(1)').classList.add('active-nav');
+        const target = (id === 'sports' || id === 'poker' || id === 'profile') ? 'page-'+id : id;
+        document.getElementById(target).classList.add('active');
+        document.querySelectorAll('.nav-btn, .sub-item').forEach(b => b.classList.remove('active'));
+        if(el) el.classList.add('active');
     }
 
-    function login() {
-        let u = document.getElementById('username').value.trim();
-        if(u.length < 2) return alert("Hyrni një emër!");
-        if(!users[u]) users[u] = { credits: 1000, last: 0 };
-        current = u;
-        document.getElementById('ui-balance').style.display = 'block';
-        document.getElementById('bot-nav').style.display = 'flex';
-        save();
-        nav('page-lobby');
+    function updateBal() { 
+        document.getElementById('main-bal').innerText = "$" + bal.toLocaleString(undefined, {minimumFractionDigits:2});
+        updateHistoryUI();
     }
 
-    function save() {
-        document.getElementById('top-bal').innerText = "$" + users[current].credits.toLocaleString();
-        localStorage.setItem('alb_final_v1', JSON.stringify(users));
+    function logH(type, amt, stat) {
+        history.unshift({type, amt, stat, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
+        updateHistoryUI();
     }
 
-    function showRank() {
-        nav('page-rank');
-        const display = document.getElementById('rank-display');
-        display.innerHTML = "";
-        let all = [...bots, ...Object.keys(users).map(n => ({name: n, credits: users[n].credits}))].sort((a,b) => b.credits - a.credits);
-        all.forEach((p, i) => {
-            display.innerHTML += `<div style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid #222; background:${p.name === current ? 'rgba(212,175,55,0.1)' : ''}"><span>${i+1}. ${p.name}</span><b>$${p.credits.toLocaleString()}</b></div>`;
-        });
+    function updateHistoryUI() {
+        const list = document.getElementById('history-list');
+        if(!list) return;
+        list.innerHTML = history.map(h => `<div class="history-item ${h.stat}"><div class="h-info"><b>${h.type}</b><br><small>${h.time}</small></div><div class="h-amt" style="color:${h.stat==='win'?'green':'red'}">${h.stat==='win'?'+':'-'}$${h.amt}</div></div>`).join('');
     }
 
-    function openGame(type, dealer, img) {
-        nav('page-game');
-        document.getElementById('table-view').innerHTML = `<div style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); background-image:url('${img}'); background-size:cover; margin-bottom:10px;"></div><div id="p-hand"></div>`;
-        document.getElementById('game-ctrl').innerHTML = `<button class="play-btn" onclick="deal()">PLACE BET $100</button>`;
+    // LOTTERY SCRATCH LOGIC
+    function buyTicket(name, price) {
+        if(bal < price) return alert("No funds!");
+        bal -= price; logH(name, price, 'loss'); updateBal();
+        const win = (Math.random() > 0.7) ? (Math.random()*50).toFixed(2) : "0.00";
+        document.getElementById('prize-text').innerText = "$" + win;
+        document.getElementById('scratch-overlay').style.display = 'flex';
+        initScratch(win);
+    }
+
+    function initScratch(win) {
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0,0,280,150);
+        ctx.fillStyle = '#666'; ctx.font = "20px Roboto"; ctx.fillText("SCRATCH HERE", 70, 80);
         
-        chatInterval = setInterval(() => {
-            const chat = document.getElementById('chat-content');
-            const bot = bots[Math.floor(Math.random()*bots.length)].name;
-            const msg = messages[Math.floor(Math.random()*messages.length)];
-            const div = document.createElement('div');
-            div.className = 'chat-msg';
-            div.innerHTML = `<b>${bot}:</b> ${msg}`;
-            chat.prepend(div);
-        }, 3000);
+        let paint = false;
+        const scratch = (e) => {
+            if(!paint) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.pageX || e.touches[0].pageX) - rect.left;
+            const y = (e.pageY || e.touches[0].pageY) - rect.top;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
+            document.getElementById('close-scr').style.display = 'block';
+        };
+        canvas.onmousedown = canvas.ontouchstart = () => paint = true;
+        window.onmouseup = window.ontouchend = () => paint = false;
+        canvas.onmousemove = canvas.ontouchmove = scratch;
+
+        document.getElementById('close-scr').onclick = () => {
+            if(parseFloat(win) > 0) { bal += parseFloat(win); logH("Winner!", win, 'win'); updateBal(); }
+            document.getElementById('scratch-overlay').style.display = 'none';
+            document.getElementById('close-scr').style.display = 'none';
+        };
     }
 
-    function deal() {
-        if(users[current].credits < 100) return alert("S'ke kredi!");
-        users[current].credits -= 100; save();
-        document.getElementById('p-hand').innerHTML = `<div style="display:inline-block; background:white; color:black; padding:15px; border-radius:5px; margin:5px; font-weight:900;">A</div><div style="display:inline-block; background:white; color:black; padding:15px; border-radius:5px; margin:5px; font-weight:900;">K</div>`;
-        setTimeout(() => { alert("BLACKJACK! +$300"); users[current].credits += 300; save(); nav('page-lobby'); }, 1000);
+    function placeBet(team, odd) {
+        let amt = prompt("Stake for " + team + ":", "10");
+        if(!amt || bal < amt) return;
+        bal -= amt; logH("Bet: "+team, amt, 'loss'); updateBal();
+        alert("Bet Placed! Potential Win: $" + (amt*odd).toFixed(2));
     }
 
-    function getBonus() {
-        let u = users[current];
-        if(Date.now() - u.last > 86400000) { u.credits += 200; u.last = Date.now(); alert("Bonus ditor $200 u shtua!"); save(); }
-        else alert("Kthehu nesër për bonusin e rradhës!");
-    }
+    function openGame(n) { alert("Opening " + n + " Studio..."); logH(n + " Entry", 1.00, 'loss'); bal -= 1; updateBal(); }
+    
+    function showProfile(el) { nav('profile', el); updateHistoryUI(); }
 </script>
 </body>
 </html>
