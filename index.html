@@ -3,219 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALB CASINO | Espacejeux Studio</title>
+    <title>Casino Master All-In-One</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #003399; --dark-blue: #001a4d; --grey: #f4f4f4; --border: #dee2e6; --gold: #fbc02d; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root { --p: #6366f1; --gold: #fbbf24; --dark: #0f172a; --card: #1e293b; --text: #f8fafc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--dark); color: var(--text); overflow-x: hidden; }
+
+        /* AUTH SCREEN */
+        #auth-screen { position: fixed; inset: 0; background: var(--dark); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .auth-box { background: var(--card); padding: 30px; border-radius: 20px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
         
-        body { background: white; color: #333; padding-bottom: 80px; overflow-x: hidden; }
+        .avatar-select { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .avatar-opt { width: 55px; height: 55px; background: #334155; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
+        .avatar-opt.selected { border-color: var(--p); transform: scale(1.1); background: #475569; }
 
-        /* HEADER */
-        header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo { font-weight: 900; font-size: 18px; letter-spacing: 1px; }
-        .bal-display { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; }
+        input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 20px; font-size: 16px; }
+        .btn-primary { background: var(--p); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; font-size: 16px; width: 100%; cursor: pointer; }
 
-        /* SIDEBAR MENU (IMG_4800 / 4801) */
-        #sidebar { position: fixed; left: -100%; top: 0; width: 85%; height: 100%; background: white; z-index: 2000; transition: 0.3s; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
-        #sidebar.active { left: 0; }
-        .side-head { background: var(--blue); color: white; padding: 20px; font-weight: bold; display: flex; justify-content: space-between; }
-        .side-sect { padding: 15px 0; border-bottom: 1px solid #eee; }
-        .side-title { color: var(--blue); font-size: 12px; font-weight: 900; padding-left: 20px; text-transform: uppercase; border-bottom: 2px solid var(--blue); display: inline-block; margin-left: 20px; margin-bottom: 10px; }
-        .side-link { padding: 12px 40px; display: block; color: #333; text-decoration: none; font-size: 15px; }
-        .side-link:active { background: #f0f0f0; }
+        /* MAIN UI */
+        header { padding: 20px; background: var(--card); border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
+        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .coin-display { background: #0f172a; padding: 8px 15px; border-radius: 20px; color: var(--gold); font-weight: bold; border: 1px solid #334155; }
+        
+        .lvl-bar-bg { background: #0f172a; height: 8px; border-radius: 10px; overflow: hidden; margin-top: 5px; }
+        #lvl-fill { background: var(--p); height: 100%; width: 0%; transition: 0.5s; }
 
-        /* NAVIGATION TABS */
-        .sub-nav { display: flex; background: var(--grey); border-bottom: 1px solid var(--border); overflow-x: auto; white-space: nowrap; sticky; top: 54px; z-index: 999; }
-        .sub-link { padding: 15px 20px; font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; border-bottom: 3px solid transparent; opacity: 0.7; }
-        .sub-link.active { opacity: 1; border-bottom-color: var(--blue); }
-
-        /* PAGES */
-        .page { display: none; padding: 15px; animation: fadeIn 0.3s; }
+        /* GAMES & CONTENT */
+        .page { display: none; padding: 20px; padding-bottom: 100px; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* GAME CARDS (IMG_4795) */
-        .game-card { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; background: white; }
-        .game-thumb { width: 60px; height: 60px; border-radius: 50%; border: 1px solid #ddd; object-fit: cover; }
-        .game-info { flex: 1; padding-left: 15px; }
-        .game-name { font-weight: bold; color: var(--blue); font-size: 15px; }
-        .game-meta { font-size: 11px; color: #777; }
-        .btn-play { border: 2px solid var(--blue); color: var(--blue); background: none; padding: 6px 20px; border-radius: 20px; font-weight: 900; font-size: 12px; }
-
-        /* LOTTERY GRID (IMG_4802) */
-        .lotto-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-        .lotto-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; background: #fafafa; }
-        .lotto-name { font-weight: 900; color: var(--blue); font-size: 18px; display: block; }
-        .lotto-jackpot { color: #d32f2f; font-weight: bold; font-size: 14px; display: block; margin-top: 5px; }
-
-        /* SPORTS (MISE-O-JEU) */
-        .match-card { background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
-        .odds-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .odd-btn { background: white; border: 1px solid var(--blue); padding: 10px; text-align: center; border-radius: 5px; color: var(--blue); font-weight: bold; font-size: 13px; }
-<section id="page-slots" class="page">
-    <div class="game-card">
-        <div class="game-info">
-            <div class="game-name">Gates of Olympus</div>
-            <div class="game-meta">Pragmatic Play | Multiplier x5000</div>
-        </div>
-        <button class="btn-play" onclick="play('Slots')">Spin</button>
-    </div>
-    <div class="game-card">
-        <div class="game-info">
-            <div class="game-name">Sweet Bonanza</div>
-            <div class="game-meta">High Volatility | Free Spins</div>
-        </div>
-        <button class="btn-play" onclick="play('Sweet Bonanza')">Spin</button>
-    </div>
-    <div class="game-card">
-        <div class="game-info">
-            <div class="game-name">Sugar Rush</div>
-            <div class="game-meta">Cluster Pays | Jackpot</div>
-        </div>
-        <button class="btn-play" onclick="play('Sugar Rush')">Spin</button>
-    </div>
-</section>
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 10px 0 25px; z-index: 1000; }
-        .nav-item { border: none; background: none; color: var(--blue); font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; opacity: 0.5; }
-        .nav-item.active { opacity: 1; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
+        .game-card { background: var(--card); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid #334155; text-align: center; }
+        
+        /* NAVBAR */
+        nav { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #334155; }
+        nav button { background: none; border: none; color: #94a3b8; font-weight: 600; font-size: 12px; }
+        nav button.active { color: var(--p); }
     </style>
 </head>
 <body>
 
-<div id="sidebar">
-    <div class="side-head"><span>MENU</span> <span onclick="toggleMenu()">✕</span></div>
-    <div class="side-sect">
-        <div class="side-title">IN STORE</div>
-        <a href="#" class="side-link" onclick="nav('lottery')">Lotteries</a>
-        <a href="#" class="side-link" onclick="nav('sports')">Mise-o-jeu</a>
-    </div>
-    <div class="side-sect">
-        <div class="side-title">ONLINE</div>
-        <a href="#" class="side-link" onclick="nav('lottery')">Online Lotteries</a>
-        <a href="#" class="side-link" onclick="nav('casino')">Live Casino</a>
-        <a href="#" class="side-link" onclick="nav('slots')">Slot Machines</a>
-        <a href="#" class="side-link" onclick="nav('poker')">Poker</a>
-        <a href="#" class="side-link" onclick="nav('bingo')">Bingo / Kinzo</a>
-    </div>
-</div>
-
-<header>
-    <div onclick="toggleMenu()" style="cursor:pointer; font-size:20px;">☰</div>
-    <div class="logo">ALB CASINO</div>
-    <div class="bal-display" id="balance">$1,000.00</div>
-</header>
-
-<div class="sub-nav">
-    <div class="sub-link active" onclick="nav('casino', this)">Live Casino</div>
-    <div class="sub-link" onclick="nav('slots', this)">Slots</div>
-    <div class="sub-link" onclick="nav('lottery', this)">Lotto</div>
-    <div class="sub-link" onclick="nav('sports', this)">Sports</div>
-    <div class="sub-link" onclick="nav('bingo', this)">Bingo</div>
-</div>
-
-<section id="page-casino" class="page active">
-    <div class="game-card">
-        <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=100" class="game-thumb">
-        <div class="game-info"><div class="game-name">Crazy Time</div><div class="game-meta">20¢ - $3,000 | 11k Players</div></div>
-        <button class="btn-play" onclick="play('Crazy Time')">Play</button>
-    </div>
-    <div class="game-card">
-        <img src="https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=100" class="game-thumb">
-        <div class="game-info"><div class="game-name">Red Door Roulette</div><div class="game-meta">20¢ - $5,000 | 1.5k Players</div></div>
-        <button class="btn-play" onclick="play('Roulette')">Play</button>
-    </div>
-</section>
-
-<section id="page-slots" class="page">
-    <div class="game-card">
-        <div class="game-info"><div class="game-name">88 Fortunes</div><div class="game-meta">Jackpot: $10,500.00</div></div>
-        <button class="btn-play" onclick="play('Slots')">Spin</button>
-    </div>
-    <div class="game-card">
-        <div class="game-info"><div class="game-name">Bonanza</div><div class="game-meta">Megaways | High Volatility</div></div>
-        <button class="btn-play" onclick="play('Slots')">Spin</button>
-    </div>
-</section>
-
-<section id="page-lottery" class="page">
-    <div class="lotto-grid">
-        <div class="lotto-card"><span class="lotto-name">6/49</span><span class="lotto-jackpot">$5M</span><button class="btn-play" style="margin-top:10px" onclick="buy(5)">Buy</button></div>
-        <div class="lotto-card"><span class="lotto-name">MAX</span><span class="lotto-jackpot">$70M</span><button class="btn-play" style="margin-top:10px" onclick="buy(5)">Buy</button></div>
-        <div class="lotto-card"><span class="lotto-name">GRANDE</span><span class="lotto-jackpot">$1k/DITË</span><button class="btn-play" style="margin-top:10px" onclick="buy(3)">Buy</button></div>
-        <div class="lotto-card"><span class="lotto-name">BANCO</span><span class="lotto-jackpot">WIN X10</span><button class="btn-play" style="margin-top:10px" onclick="buy(2)">Buy</button></div>
-    </div>
-</section>
-
-<section id="page-sports" class="page">
-    <div class="match-card">
-        <div style="font-size:11px; color:#777;">CHAMPIONS LEAGUE</div>
-        <div style="font-weight:bold; margin:5px 0;">Arsenal vs Bayern</div>
-        <div class="odds-row">
-            <div class="odd-btn" onclick="bet('Arsenal', 1.90)">1<br>1.90</div>
-            <div class="odd-btn" onclick="bet('Barazim', 3.40)">X<br>3.40</div>
-            <div class="odd-btn" onclick="bet('Bayern', 3.80)">2<br>3.80</div>
+    <section id="auth-screen">
+        <div class="auth-box">
+            <h1 style="margin-bottom:10px;">Casino Master</h1>
+            <p style="color:#94a3b8; font-size:14px;">Zgjidhni profilin tuaj</p>
+            <div class="avatar-select">
+                <div class="avatar-opt" onclick="selectAvatar(this, '👤')">👤</div>
+                <div class="avatar-opt" onclick="selectAvatar(this, '🕶️')">🕶️</div>
+                <div class="avatar-opt" onclick="selectAvatar(this, '💎')">💎</div>
+                <div class="avatar-opt" onclick="selectAvatar(this, '🔥')">🔥</div>
+            </div>
+            <input type="text" id="u-name" placeholder="Username juaj...">
+            <button onclick="startApp()" class="btn-primary">FILLONI</button>
         </div>
+    </section>
+
+    <div id="app-main" style="display:none;">
+        <header>
+            <div class="top-row">
+                <div id="user-info"><b><span id="disp-av">👤</span> <span id="disp-name">Player</span></b></div>
+                <div class="coin-display">🪙 <span id="disp-coins">500</span></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:#94a3b8;">
+                <span>LEVEL <span id="disp-lvl">1</span></span>
+                <span><span id="disp-xp">0</span>/150 XP</span>
+            </div>
+            <div class="lvl-bar-bg"><div id="lvl-fill"></div></div>
+        </header>
+
+        <main>
+            <section id="page-games" class="page active">
+                <div class="game-card">
+                    <h3>Slot Simulator</h3>
+                    <p style="font-size:12px; color:#94a3b8; margin:10px 0;">Kosto: 10 monedha</p>
+                    <button onclick="playSlot()" class="btn-primary" style="background:#22c55e;">SPIN</button>
+                </div>
+
+                <div class="game-card" style="border: 2px dashed var(--p);">
+                    <small style="color:var(--p)">REKLAMË PARTNERI</small>
+                    <h4 style="margin:5px 0;">Luaj në Kazino Reale</h4>
+                    <button onclick="window.open('https://google.com')" class="btn-primary" style="padding:10px; font-size:12px; margin-top:10px;">MERR BONUSIN</button>
+                </div>
+            </section>
+
+            <section id="page-rank" class="page">
+                <h3 style="margin-bottom:15px;">Global Leaderboard</h3>
+                <div id="leaderboard-list">
+                    <p style="text-align:center; color:#94a3b8;">Duke u lidhur me serverin...</p>
+                </div>
+            </section>
+        </main>
+
+        <nav>
+            <button onclick="showTab('games')" id="btn-games" class="active">LOJËRAT</button>
+            <button onclick="showTab('rank')" id="btn-rank">RENDITJA</button>
+        </nav>
     </div>
-</section>
 
-<section id="page-bingo" class="page">
-    <div class="game-card">
-        <div class="game-info"><div class="game-name">Bingo en ligne</div><div class="game-meta">Next draw: 01:20</div></div>
-        <button class="btn-play" onclick="play('Bingo')">Join</button>
-    </div>
-    <div class="game-card">
-        <div class="game-info"><div class="game-name">Kinzo Live</div><div class="game-meta">Fast action bingo</div></div>
-        <button class="btn-play" onclick="play('Kinzo')">Play</button>
-    </div>
-</section>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script type="module">
+        // --- KONFIGURIMI FIREBASE ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<nav class="bottom-nav">
-    <button class="nav-item active" onclick="nav('casino', this)"><i>🏠</i>Home</button>
-    <button class="nav-item" onclick="nav('slots', this)"><i>🎰</i>Slots</button>
-    <button class="nav-item" onclick="nav('lottery', this)"><i>🎫</i>Lotto</button>
-    <button class="nav-item" onclick="nav('sports', this)"><i>⚽</i>Sports</button>
-</nav>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-VENDOS-API-KEY-TENDE", // Këtu vendos çelësin tënd
+            projectId: "casinomaster-pro",
+            appId: "1:12345678"
+        };
 
-<script>
-    let bal = 1000.00;
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        // --- VARIABLAT E LOJËS ---
+        let userData = {
+            name: "",
+            avatar: "👤",
+            coins: 500,
+            xp: 0,
+            lvl: 1
+        };
 
-    function nav(id, el) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-' + id).classList.add('active');
-        document.querySelectorAll('.sub-link, .nav-item').forEach(l => l.classList.remove('active'));
-        if(el) el.classList.add('active');
-        if(document.getElementById('sidebar').classList.contains('active')) toggleMenu();
-    }
+        // --- FUNKSIONET KRYESORE ---
+        window.selectAvatar = function(el, av) {
+            document.querySelectorAll('.avatar-opt').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            userData.avatar = av;
+        };
 
-    function updateUI() {
-        document.getElementById('balance').innerText = "$" + bal.toLocaleString(undefined, {minimumFractionDigits: 2});
-    }
+        window.startApp = function() {
+            const inputName = document.getElementById('u-name').value;
+            if(inputName.length < 2) return alert("Shkruani emrin!");
+            
+            userData.name = inputName;
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-main').style.display = 'block';
+            
+            updateUI();
+            listenToRankings();
+        };
 
-    function play(game) {
-        if(bal < 1) return alert("Fonde të pamjaftueshme!");
-        bal -= 1.00; updateUI();
-        alert("Duke hapur " + game + "...");
-    }
+        window.playSlot = function() {
+            if(userData.coins < 10) return alert("S'ke monedha!");
+            userData.coins -= 10;
+            
+            if(Math.random() < 0.2) { // 20% mundësi fitoreje
+                userData.coins += 60;
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                alert("🎰 FITORE E MADHE! +60");
+            }
+            
+            addXP(25);
+        };
 
-    function buy(price) {
-        if(bal < price) return alert("Fonde të pamjaftueshme!");
-        bal -= price; updateUI();
-        alert("Bileta u ble me sukses!");
-    }
+        function addXP(amount) {
+            userData.xp += amount;
+            if(userData.xp >= 150) {
+                userData.lvl++;
+                userData.xp = 0;
+                alert("🎉 LEVEL UP! Je niveli " + userData.lvl);
+            }
+            updateUI();
+        }
 
-    function bet(team, odd) {
-        let amount = prompt("Vendos shumën për " + team + ":", "10");
-        if(!amount || bal < amount) return;
-        bal -= amount; updateUI();
-        alert("Basti u vendos! Fitimi i mundshëm: $" + (amount * odd).toFixed(2));
-    }
-</script>
+        function updateUI() {
+            document.getElementById('disp-name').innerText = userData.name;
+            document.getElementById('disp-av').innerText = userData.avatar;
+            document.getElementById('disp-coins').innerText = userData.coins;
+            document.getElementById('disp-lvl').innerText = userData.lvl;
+            document.getElementById('disp-xp').innerText = userData.xp;
+            document.getElementById('lvl-fill').style.width = (userData.xp / 150 * 100) + "%";
+            
+            // Ruaj në Firebase
+            saveToCloud();
+        }
 
+        async function saveToCloud() {
+            try {
+                await setDoc(doc(db, "players", userData.name), {
+                    name: userData.name,
+                    coins: userData.coins,
+                    lvl: userData.lvl,
+                    avatar: userData.avatar
+                });
+            } catch(e) { console.log("Firebase error"); }
+        }
+
+        function listenToRankings() {
+            const q = query(collection(db, "players"), orderBy("coins", "desc"), limit(5));
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('leaderboard-list');
+                list.innerHTML = "";
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; padding:15px; background:#1e293b; border-radius:12px; margin-bottom:10px;">
+                            <span>${data.avatar} <b>${data.name}</b> <small>Lv.${data.lvl}</small></span>
+                            <span style="color:var(--gold)">🪙 ${data.coins}</span>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        window.showTab = function(tabName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + tabName).classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + tabName).classList.add('active');
+        }
+    </script>
 </body>
 </html>
