@@ -3,161 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALB CASINO - Absolute Legend</title>
+    <title>ALB CASINO | Live Casino Solutions</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/FFD700/000000?text=ALB">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/d4af37/000000?text=ALB">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root { --gold: #d4af37; --dark-bg: #050505; --card-bg: #111111; --text-gray: #a0a0a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background: radial-gradient(circle, #1a1a1a 0%, #000 100%); color: white; min-height: 100vh; overflow-x: hidden; }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255, 215, 0, 0.3); background: rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 22px; font-weight: 800; color: gold; letter-spacing: 2px; }
+        body { background: var(--dark-bg); color: white; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
 
-        /* Login & Menu Section */
-        .auth-links { font-size: 11px; margin-top: 5px; }
-        .auth-links a { color: gold; text-decoration: none; margin-right: 10px; opacity: 0.8; }
+        /* Header Evolution Style */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 20px; font-weight: 800; color: var(--gold); letter-spacing: 3px; cursor: pointer; }
+        .user-panel { text-align: right; display: none; }
+        .credits-val { color: var(--gold); font-weight: 700; font-size: 16px; }
 
-        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
-        .hero h1 { font-size: 40px; background: linear-gradient(90deg, #FFD700, #fff, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        /* Page Management */
+        .page { display: none; padding: 40px 5%; animation: fadeIn 0.4s ease; min-height: 80vh; }
+        .active { display: block; }
 
-        /* Game Container */
-        #slot-container { display: none; text-align: center; padding: 20px; animation: fadeIn 0.5s; }
-        .slot-machine { background: #111; border: 3px solid gold; border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); max-width: 400px; margin: 0 auto; }
-        .reels { font-size: 45px; background: #000; padding: 15px; border-radius: 10px; margin: 15px 0; border: 1px solid #333; }
-
-        /* XP & Progress */
-        .xp-container { width: 100%; background: #333; height: 8px; border-radius: 4px; margin: 10px 0; overflow: hidden; }
-        .xp-bar { width: 0%; height: 100%; background: gold; transition: width 0.3s; }
+        /* Auth Screen */
+        .auth-container { max-width: 400px; margin: 40px auto; background: var(--card-bg); padding: 40px; border-radius: 8px; border-top: 4px solid var(--gold); text-align: center; }
+        input { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 4px; }
         
         /* Buttons */
-        .btn { padding: 12px 30px; border-radius: 25px; border: 2px solid gold; background: transparent; color: gold; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 12px; }
-        .btn:hover { background: gold; color: black; box-shadow: 0 0 15px gold; }
+        .btn-gold { background: var(--gold); color: black; border: none; padding: 15px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; letter-spacing: 1px; transition: 0.3s; margin-top: 10px; }
+        .btn-gold:hover { background: #fff; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 20px; cursor: pointer; text-transform: uppercase; font-size: 11px; margin: 5px; border-radius: 4px; }
 
-        /* Sidebar/Menu Overlay */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
-        .menu-btn { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: white; padding: 10px; border-radius: 10px; font-size: 10px; cursor: pointer; }
+        /* Lobby Grid */
+        .section-title { font-weight: 300; font-size: 28px; letter-spacing: 2px; margin-bottom: 30px; border-left: 4px solid var(--gold); padding-left: 15px; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+        .game-card { background: var(--card-bg); border: 1px solid #222; padding: 30px 10px; border-radius: 8px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .game-card:hover { border-color: var(--gold); background: #1a1a1a; }
+        .game-card span { display: block; font-size: 40px; margin-bottom: 15px; }
+
+        /* Game Area */
+        .play-box { background: #000; border: 1px solid var(--gold); padding: 50px 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+        #game-output { font-size: 45px; margin-bottom: 20px; font-weight: 800; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+
+        /* Info Pages */
+        .info-page h1 { color: var(--gold); margin-bottom: 20px; }
+        .info-page p { color: var(--text-gray); margin-bottom: 15px; font-size: 15px; }
+        .contact-form { background: var(--card-bg); padding: 30px; border-radius: 8px; margin-top: 20px; }
+
+        /* Footer */
+        footer { background: #000; padding: 60px 5% 30px; border-top: 1px solid #1a1a1a; text-align: center; margin-top: 50px; }
+        .footer-nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
+        .footer-nav a { color: var(--text-gray); text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-nav a:hover { color: var(--gold); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        footer { text-align: center; padding: 20px; font-size: 10px; opacity: 0.4; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div>
-            <div class="logo">ALB CASINO</div>
-            <div class="auth-links">
-                <a href="#" onclick="alert('Log In do të hapet së shpejti...')">LOG IN</a>
-                <a href="#" onclick="alert('Regjistrimi: Na dërgoni një email në support@albcasino.com')">REGISTER NOW</a>
-            </div>
-        </div>
-        <div id="status" style="text-align: right;">
-            <div id="top-level" style="color: white; font-size: 11px; font-weight: bold;">LVL 1</div>
-            <div id="top-credits" style="color: gold; font-weight: bold;">$1000</div>
-        </div>
-    </header>
+<header>
+    <div class="logo" onclick="nav('lobby')">ALB CASINO</div>
+    <div class="user-panel" id="user-stats">
+        <span id="stat-name" style="font-size: 10px; display: block; color: var(--text-gray);"></span>
+        <span id="stat-credits" class="credits-val">$0</span>
+    </div>
+</header>
 
-    <section class="hero" id="main-screen">
-        <h1>WELCOME</h1>
-        <p style="margin-bottom: 25px; opacity: 0.7;">Absolute Legend Mode</p>
-        <button class="btn" onclick="startGame()">ENTER CASINO</button>
+<section id="auth" class="page active">
+    <div class="auth-container">
+        <h2 style="letter-spacing: 2px; margin-bottom: 20px;">HYRJA</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="btn-gold" onclick="authenticate()">Hyr në Platformë</button>
+        <p style="font-size: 11px; margin-top: 20px; color: #555;">Kjo është një platformë demo. Ju lutem luani me përgjegjësi.</p>
+    </div>
+</section>
+
+<section id="lobby" class="page">
+    <h1 class="section-title">LIVE GAMES LOBBY</h1>
+    <div class="game-grid">
+        <div class="game-card" onclick="openGame('Slots')"><span>🎰</span>SLOTS</div>
+        <div class="game-card" onclick="openGame('Blackjack')"><span>🃏</span>BLACKJACK</div>
+        <div class="game-card" onclick="openGame('Roulette')"><span>🎡</span>ROULETTE</div>
+        <div class="game-card" onclick="openGame('Bingo')"><span>🎱</span>BINGO</div>
+    </div>
+    <div style="margin-top: 40px; text-align: center;">
+        <button class="btn-outline" onclick="collectDaily()">Bonus Ditor ($200)</button>
+    </div>
+</section>
+
+<section id="game-room" class="page">
+    <h1 class="section-title" id="room-title">GAME</h1>
+    <div class="play-box">
+        <div id="game-output">READY</div>
+        <div id="game-controls"></div>
+    </div>
+    <button class="btn-outline" onclick="nav('lobby')">← Kthehu në Lobby</button>
+</section>
+
+<section id="about" class="page info-page">
+    <h1>About ALB CASINO</h1>
+    <p>ALB CASINO është destinacioni numër një për lojërat Live Casino, i frymëzuar nga teknologjia dhe dizajni i Evolution Gaming.</p>
+    <p>Ne ofrojmë një eksperiencë luksoze dhe të sigurt për të gjithë lojtarët tanë në mbarë botën.</p>
+</section>
+
+<section id="privacy" class="page info-page">
+    <h1>Privacy Policy</h1>
+    <p>Siguria juaj është prioriteti ynë. Të gjitha të dhënat tuaja enkriptohen me teknologjinë më të fundit SSL.</p>
+    <p>Ne nuk ndajmë asnjë informacion personal me palë të treta pa pëlqimin tuaj të plotë.</p>
+</section>
+
+<section id="contact" class="page info-page">
+    <h1>Na Kontaktoni</h1>
+    <div class="contact-form">
+        <input type="text" placeholder="Emri juaj">
+        <input type="email" placeholder="Email Adresa">
+        <textarea style="width:100%; height:100px; background:#000; border:1px solid #333; color:white; padding:15px; margin:10px 0;" placeholder="Mesazhi juaj..."></textarea>
+        <button class="btn-gold" onclick="alert('Mesazhi u dërgua! Do t\'ju kontaktojmë së shpejti.')">Dërgo Mesazhin</button>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-nav">
+        <a href="#" onclick="nav('about')">About Us</a>
+        <a href="#" onclick="nav('contact')">Contact</a>
+        <a href="#" onclick="nav('privacy')">Privacy Policy</a>
+        <a href="#" onclick="location.reload()">Logout</a>
+    </div>
+    <p style="font-size: 11px; color: #333; letter-spacing: 1px;">© 2026 ALB CASINO | ALL RIGHTS RESERVED | INSPIRED BY EVOLUTION</p>
+</footer>
+
+<script>
+    let users = JSON.parse(localStorage.getItem('alb_evolution_db')) || {};
+    let currentUser = null;
+
+    function nav(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function authenticate() {
+        let u = document.getElementById('username').value;
+        let p = document.getElementById('password').value;
+        if(u.length < 2) return alert("Ju lutem shkruani një Username!");
         
-        <div style="margin-top: 30px; font-size: 11px;">
-            <a href="#" onclick="alert('Instruksionet: Shtyp SPIN, mbledh 3 rreshta njësoj për të fituar Jackpot-in!')" style="color:white; margin-right: 15px;">Need Help?</a>
-            <a href="#" onclick="alert('Shërbimi për harresën e fjalëkalimit nuk është aktiv në versionin Demo.')" style="color:white;">Forgot Password?</a>
-        </div>
-    </section>
-
-    <section id="slot-container">
-        <div id="credit-val" style="font-size: 22px; color: gold; font-weight: 800;">$1000</div>
-        <div id="rank-name" style="font-size: 11px; color: gold; margin-bottom: 5px;">RANK: NEWBIE</div>
-        <div class="xp-container"><div class="xp-bar" id="xp-bar"></div></div>
+        if(!users[u]) {
+            users[u] = { pass: p, credits: 1000, lastBonus: 0 };
+        } else if(users[u].pass !== p) {
+            return alert("Fjalëkalim i gabuar!");
+        }
         
-        <div class="slot-machine">
-            <div class="reels" id="reels">🎰 | 🎰 | 🎰</div>
-            <button class="btn" id="spin-btn" onclick="spin()">SPIN ($10)</button>
-            <p id="msg" style="margin-top: 15px; font-size: 13px; height: 20px; color: #fff;"></p>
-        </div>
+        currentUser = u;
+        save();
+        document.getElementById('user-stats').style.display = 'block';
+        updateUI();
+        nav('lobby');
+    }
 
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="referFriend()">👥 REFER A FRIEND</button>
-            <button class="menu-btn" onclick="shareGame()">📤 SHARE TO FRIEND</button>
-            <button class="menu-btn" onclick="alert('VIP Lounge hapet në nivelin 10!')">💎 VIP CLUB</button>
-            <button class="menu-btn" onclick="location.reload()">🔒 LOG OUT</button>
-        </div>
-    </section>
+    function updateUI() {
+        document.getElementById('stat-name').innerText = currentUser.toUpperCase();
+        document.getElementById('stat-credits').innerText = "$" + users[currentUser].credits;
+    }
 
-    <footer>© 2026 ALB CASINO — Absolute Legend Mode</footer>
+    function save() {
+        localStorage.setItem('alb_evolution_db', JSON.stringify(users));
+    }
 
-    <script>
-        let credits = localStorage.getItem('alb_credits') ? parseInt(localStorage.getItem('alb_credits')) : 1000;
-        let xp = localStorage.getItem('alb_xp') ? parseInt(localStorage.getItem('alb_xp')) : 0;
-        const symbols = ['🍒', '🍋', '🔔', '💎', '7️⃣'];
-        const ranks = ["Newbie", "Gambler", "High Roller", "VIP", "Elite", "ABSOLUTE LEGEND"];
+    function collectDaily() {
+        let u = users[currentUser];
+        if(Date.now() - u.lastBonus > 86400000) {
+            u.credits += 200; u.lastBonus = Date.now();
+            alert("Shtuat $200 në balancën tuaj!"); updateUI(); save();
+        } else alert("Bonusin mund ta merrni vetëm një herë në ditë!");
+    }
 
-        function updateUI(message = "") {
-            let level = Math.floor(xp / 100) + 1;
-            let rankIndex = Math.min(level - 1, ranks.length - 1);
-            
-            document.getElementById('credit-val').innerText = `$${credits}`;
-            document.getElementById('top-credits').innerText = `$${credits}`;
-            document.getElementById('top-level').innerText = `LVL ${level}`;
-            document.getElementById('rank-name').innerText = `RANK: ${ranks[rankIndex]}`;
-            document.getElementById('xp-bar').style.width = `${xp % 100}%`;
-            document.getElementById('msg').innerText = message;
+    function openGame(type) {
+        nav('game-room');
+        document.getElementById('room-title').innerText = type.toUpperCase();
+        const out = document.getElementById('game-output');
+        const ctrl = document.getElementById('game-controls');
+        ctrl.innerHTML = "";
+        out.innerText = "MIRËSEVINI";
 
-            localStorage.setItem('alb_credits', credits);
-            localStorage.setItem('alb_xp', xp);
+        if(type === 'Slots') {
+            out.innerText = "🎰 | 🎰 | 🎰";
+            ctrl.innerHTML = `<button class="btn-gold" onclick="spinSlots()">SPIN ($10)</button>`;
+        } 
+        else if(type === 'Blackjack') {
+            out.innerText = "BLACKJACK TABLE";
+            ctrl.innerHTML = `<button class="btn-gold" onclick="playBJ()">DEAL HAND ($50)</button>`;
         }
-
-        function startGame() {
-            document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('slot-container').style.display = 'block';
-            updateUI();
+        else if(type === 'Roulette') {
+            out.innerText = "CHOOSE COLOR";
+            ctrl.innerHTML = `<button class="btn-gold" style="background:#b22222; margin-bottom:10px" onclick="spinR('Red')">RED</button>
+                             <button class="btn-gold" style="background:#000; border:1px solid #333" onclick="spinR('Black')">BLACK</button>`;
         }
-
-        function spin() {
-            if (credits < 10) { alert("Nuk ke kredi!"); return; }
-            credits -= 10;
-            xp += 10;
-            
-            const btn = document.getElementById('spin-btn');
-            btn.disabled = true;
-            let count = 0;
-            let interval = setInterval(() => {
-                const r = [symbols[Math.floor(Math.random()*5)], symbols[Math.floor(Math.random()*5)], symbols[Math.floor(Math.random()*5)]];
-                document.getElementById('reels').innerText = r.join(' | ');
-                count++;
-                if(count > 8) {
-                    clearInterval(interval);
-                    finalize(r);
-                    btn.disabled = false;
-                }
-            }, 100);
+        else if(type === 'Bingo') {
+            out.innerText = "BINGO BALLS";
+            ctrl.innerHTML = `<button class="btn-gold" onclick="drawBingo()">DRAW BALL ($20)</button>`;
         }
+    }
 
-        function finalize(r) {
-            if(r[0] === r[1] && r[1] === r[2]) {
-                credits += 500; xp += 40; updateUI("JACKPOT! +$500 🎉");
-            } else { updateUI("Provo përsëri!"); }
-        }
+    // GAME LOGICS
+    function spinSlots() {
+        let u = users[currentUser]; if(u.credits < 10) return alert("Kredi të pamjaftueshme!");
+        u.credits -= 10;
+        let s = ['🍒','💎','7️⃣','🔔'];
+        let r = [s[Math.floor(Math.random()*4)], s[Math.floor(Math.random()*4)], s[Math.floor(Math.random()*4)]];
+        document.getElementById('game-output').innerText = r.join(" | ");
+        if(r[0] === r[1] && r[1] === r[2]) { u.credits += 500; alert("JACKPOT! +$500"); }
+        updateUI(); save();
+    }
 
-        function referFriend() {
-            let code = Math.random().toString(36).substring(7).toUpperCase();
-            alert("Kodi yt i referimit: " + code + "\nShpërndajeni këtë kod dhe fitoni $100 kur shoku juaj regjistrohet!");
-        }
+    function playBJ() {
+        let u = users[currentUser]; if(u.credits < 50) return alert("Kredi të pamjaftueshme!");
+        u.credits -= 50;
+        let score = Math.floor(Math.random()*11) + 11;
+        document.getElementById('game-output').innerText = "SCORE: " + score;
+        if(score > 18) { u.credits += 100; alert("FITORE! +$100"); } else { alert("DEALER WINS!"); }
+        updateUI(); save();
+    }
 
-        function shareGame() {
-            if (navigator.share) {
-                navigator.share({ title: 'ALB CASINO', text: 'Eja luaj në kazinonë më të re!', url: window.location.href });
-            } else {
-                alert("Kopjo linkun tonë: " + window.location.href);
-            }
-        }
-    </script>
+    function spinR(color) {
+        let u = users[currentUser]; if(u.credits < 20) return alert("Kredi të pamjaftueshme!");
+        u.credits -= 20;
+        let res = Math.random() > 0.5 ? 'Red' : 'Black';
+        document.getElementById('game-output').innerText = res.toUpperCase();
+        if(color === res) { u.credits += 40; alert("FITORE! +$40"); } else { alert("HUMBJE!"); }
+        updateUI(); save();
+    }
+
+    function drawBingo() {
+        let u = users[currentUser]; if(u.credits < 20) return alert("Kredi të pamjaftueshme!");
+        u.credits -= 20;
+        let num = Math.floor(Math.random()*90) + 1;
+        document.getElementById('game-output').innerText = "NUMBER: " + num;
+        if(num % 10 === 0) { u.credits += 100; alert("LUCKY NUMBER! +$100"); }
+        updateUI(); save();
+    }
+</script>
 </body>
 </html>
