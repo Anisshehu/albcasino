@@ -3,243 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALB CASINO | Luxury Live Experience</title>
+    <title>ALB CASINO | Official Live Studio</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #121212; }
+        :root { --gold: #d4af37; --bg: #000000; --surface: #121212; --green: #004d26; --red: #e00; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background: var(--bg); color: white; overflow-x: hidden; }
+        
+        body { background: var(--bg); color: white; -webkit-user-select: none; overflow-x: hidden; padding-bottom: 90px; }
 
-        /* UI Header */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: rgba(0,0,0,0.9); border-bottom: 1px solid rgba(212,175,55,0.3); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 18px; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
-        .balance-box { text-align: right; }
-        .balance-box span { display: block; font-size: 10px; color: #888; }
-        .balance-amount { color: var(--gold); font-weight: 800; font-size: 18px; }
+        /* SPLASH SCREEN */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: 0.8s ease-out;
+        }
+        .splash-logo {
+            font-size: 30px; font-weight: 900; color: var(--gold); letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(212,175,55,0.5); animation: pulse 2s infinite;
+        }
+        .loader {
+            width: 40px; height: 40px; border: 3px solid #111; border-top: 3px solid var(--gold);
+            border-radius: 50%; margin-top: 20px; animation: spin 1s linear infinite;
+        }
 
-        /* Pages */
-        .page { display: none; padding: 20px; animation: fadeIn 0.5s ease; }
-        .active { display: block; }
+        /* HEADER & UI */
+        header { position: sticky; top: 0; background: rgba(0,0,0,0.95); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; z-index: 1000; }
+        .logo-text { font-weight: 900; color: var(--gold); letter-spacing: 2px; font-size: 18px; }
+        .balance-pill { background: #1a1a1a; padding: 6px 15px; border-radius: 20px; border: 1px solid var(--gold); }
+        .balance-pill span { color: var(--gold); font-weight: 800; font-size: 14px; }
+
+        /* ANIMATIONS */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Auth */
-        .auth-card { max-width: 350px; margin: 80px auto; background: var(--card); padding: 40px; border-radius: 15px; border: 1px solid #222; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
+        /* PAGES */
+        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+        .active { display: block; }
 
-        /* Lobby */
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .game-card { background: var(--card); border: 1px solid #222; padding: 25px 10px; border-radius: 12px; text-align: center; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
-        .game-card:active { transform: scale(0.95); border-color: var(--gold); }
-        .game-card i { font-size: 35px; display: block; margin-bottom: 10px; }
+        /* GAME CARDS */
+        .game-card { background: var(--surface); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; margin-bottom: 20px; }
+        .game-banner { height: 170px; background-size: cover; background-position: center; position: relative; }
+        .live-tag { position: absolute; top: 12px; left: 12px; background: var(--red); color: white; font-size: 10px; padding: 3px 10px; border-radius: 4px; font-weight: 800; }
 
-        /* Visual Games Styling */
-        .table-area { background: radial-gradient(circle, #004d26 0%, #002411 100%); border: 8px solid #3d2b1f; border-radius: 50px; padding: 40px 10px; margin: 20px 0; position: relative; min-height: 300px; box-shadow: inset 0 0 50px #000; }
-        
-        /* Rrotullimi i Ruletës */
-        .roulette-wheel { width: 180px; height: 180px; border-radius: 50%; border: 10px solid #333; margin: 0 auto; position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(#e00 0deg 18deg, #000 18deg 36deg, #e00 36deg 54deg, #000 54deg 72deg, #e00 72deg 90deg, #000 90deg 108deg, #e00 108deg 126deg, #000 126deg 144deg, #e00 144deg 162deg, #000 162deg 180deg, #e00 180deg 198deg, #000 198deg 216deg, #e00 216deg 234deg, #000 234deg 252deg, #e00 252deg 270deg, #000 270deg 288deg, #e00 288deg 306deg, #000 306deg 324deg, #e00 324deg 342deg, #000 342deg 360deg); }
-        .roulette-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid gold; z-index: 10; }
+        /* CHAT */
+        .chat-box { height: 110px; background: rgba(0,0,0,0.7); margin-top: 15px; border-radius: 12px; padding: 10px; overflow-y: hidden; border: 1px solid #333; }
+        .chat-msg { font-size: 11px; margin-bottom: 4px; }
+        .chat-msg b { color: var(--gold); }
 
-        /* Letrat e Blackjack */
-        .card-visual { width: 60px; height: 85px; background: white; border-radius: 5px; display: inline-block; margin: 5px; color: black; font-weight: bold; font-size: 20px; line-height: 85px; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); animation: deal 0.5s ease-out; }
-        @keyframes deal { from { transform: translateY(-200px) rotate(20deg); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        /* BUTTONS */
+        .play-btn { background: var(--gold); color: #000; padding: 15px; border-radius: 10px; font-weight: 900; font-size: 14px; border: none; cursor: pointer; text-transform: uppercase; width: 100%; }
 
-        /* Slot Machine */
-        .reels-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .reel { width: 70px; height: 100px; background: #000; border: 2px solid var(--gold); border-radius: 10px; font-size: 40px; line-height: 100px; overflow: hidden; }
+        /* NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0 35px; border-top: 1px solid #222; z-index: 2000; }
+        .nav-item { color: #555; font-size: 10px; font-weight: 700; background: none; border: none; }
+        .nav-item.active-nav { color: var(--gold); }
+        .nav-item i { display: block; font-size: 24px; margin-bottom: 5px; font-style: normal; }
 
-        /* Buttons */
-        .btn-main { background: var(--gold); color: black; border: none; padding: 15px; width: 100%; font-weight: 800; border-radius: 5px; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
-        .btn-main:disabled { background: #444; color: #888; }
-        
-        footer { padding: 40px 20px; text-align: center; border-top: 1px solid #222; margin-top: 40px; }
-        .footer-links a { color: #666; text-decoration: none; margin: 0 10px; font-size: 11px; }
+        /* TABLE */
+        .casino-table { background: radial-gradient(circle, var(--green) 0%, #002411 100%); min-height: 380px; border-radius: 25px; border: 8px solid #2a1a0a; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 100px #000; }
     </style>
 </head>
 <body>
 
+<div id="splash-screen">
+    <div class="splash-logo">ALB CASINO</div>
+    <div class="loader"></div>
+    <p style="margin-top: 20px; font-size: 10px; color: #444; letter-spacing: 2px;">SECURE CONNECTION...</p>
+</div>
+
 <header>
-    <div class="logo">ALB CASINO</div>
-    <div class="balance-box" id="ui-stats" style="display:none;">
-        <span id="player-name">USER</span>
-        <div class="balance-amount" id="player-credits">$0</div>
+    <div class="logo-text">ALB CASINO</div>
+    <div class="balance-pill" id="ui-balance" style="display:none;">
+        <span id="top-bal">$0</span>
     </div>
 </header>
 
 <section id="page-auth" class="page active">
-    <div class="auth-card">
-        <h2 style="color:var(--gold); margin-bottom: 20px; letter-spacing: 2px;">AUTHENTICATION</h2>
-        <input type="text" id="in-user" placeholder="Username">
-        <input type="password" id="in-pass" placeholder="Password">
-        <button class="btn-main" onclick="auth()">ENTER LOBBY</button>
+    <div style="text-align:center; padding-top: 30px;">
+        <div style="background:var(--surface); padding:40px 25px; border-radius:25px; border: 1px solid #222; margin: 0 15px;">
+            <h2 style="color:var(--gold); margin-bottom:30px; font-weight:900;">LIVE LOGIN</h2>
+            <input type="text" id="username" placeholder="Username" style="width:100%; padding:15px; background:#000; border:1px solid #333; color:white; border-radius:10px; margin-bottom:15px;">
+            <input type="password" id="password" placeholder="Password" style="width:100%; padding:15px; background:#000; border:1px solid #333; color:white; border-radius:10px; margin-bottom:25px;">
+            <button onclick="login()" class="play-btn">ENTER STUDIO</button>
+        </div>
     </div>
 </section>
 
 <section id="page-lobby" class="page">
-    <h1 style="font-weight: 300; margin-bottom: 20px;">LIVE LOBBY</h1>
-    <div class="game-grid">
-        <div class="game-card" onclick="openGame('Slots')"><i>🎰</i>SLOTS</div>
-        <div class="game-card" onclick="openGame('Blackjack')"><i>🃏</i>BLACKJACK</div>
-        <div class="game-card" onclick="openGame('Roulette')"><i>🎡</i>ROULETTE</div>
-        <div class="game-card" onclick="openGame('Bingo')"><i>🎱</i>BINGO</div>
+    <div class="game-card">
+        <span class="live-tag">● LIVE STUDIO</span>
+        <div class="game-banner" style="background-image: url('https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=400');"></div>
+        <div style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+            <div><div style="font-weight:700;">BLACKJACK VIP</div><p style="font-size:10px; color:var(--gold);">Elena (Table 01)</p></div>
+            <button class="play-btn" style="width:auto; padding:10px 20px;" onclick="openGame('Blackjack', 'Elena', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150')">PLAY</button>
+        </div>
     </div>
-    <button class="btn-main" style="background:none; border:1px solid var(--gold); color:var(--gold); margin-top:30px;" onclick="daily()">GIFT BOX ($200)</button>
+</section>
+
+<section id="page-rank" class="page">
+    <h2 style="color:var(--gold); margin-bottom:20px;">RANKING</h2>
+    <div id="rank-display" style="background:var(--surface); border-radius:15px; overflow:hidden;"></div>
 </section>
 
 <section id="page-game" class="page">
-    <h2 id="game-title" style="color:var(--gold); margin-bottom:15px; text-transform:uppercase;">GAME</h2>
-    <div class="table-area" id="table">
-        </div>
-    <div id="controls"></div>
-    <button class="btn-main" style="background:none; color:#888; font-size:10px; margin-top:20px;" onclick="nav('page-lobby')">BACK TO LOBBY</button>
+    <div class="casino-table" id="table-view"></div>
+    <div class="chat-box" id="chat-content"></div>
+    <div id="game-ctrl" style="margin-top:15px;"></div>
+    <button onclick="nav('page-lobby')" style="width:100%; background:none; border:none; color:#555; margin-top:15px; font-size:11px;">CLOSE TABLE</button>
 </section>
 
-<section id="page-info" class="page">
-    <div id="info-content" style="text-align:left; color:#ccc;"></div>
-    <button class="btn-main" onclick="nav('page-lobby')">KTHEHU</button>
-</section>
-
-<footer>
-    <div class="footer-links">
-        <a href="#" onclick="showInfo('about')">About Us</a>
-        <a href="#" onclick="showInfo('contact')">Contact</a>
-        <a href="#" onclick="showInfo('privacy')">Privacy</a>
-    </div>
-    <p style="font-size: 9px; color: #444; margin-top: 20px;">© 2026 ALB CASINO | Absolute Legend Mode</p>
-</footer>
+<nav class="bottom-nav" id="bot-nav" style="display:none;">
+    <button class="nav-item active-nav" onclick="nav('page-lobby')"><i>🏠</i>Lobby</button>
+    <button class="nav-item" onclick="showRank()"><i>🏆</i>Rank</button>
+    <button class="nav-item" onclick="getBonus()"><i>🎁</i>Bonus</button>
+    <button class="nav-item" onclick="location.reload()"><i>🔒</i>Out</button>
+</nav>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('alb_v2')) || {};
+    let users = JSON.parse(localStorage.getItem('alb_final_v1')) || {};
     let current = null;
+    let chatInterval;
+
+    const bots = [
+        {name: "X_Albania_X", credits: 154000},
+        {name: "King_Tirana", credits: 92000},
+        {name: "Vlora_Queen", credits: 45000}
+    ];
+
+    const messages = ["Bravo Elena!", "Fituam!", "Më doli Blackjack!", "Suksese të gjithëve", "Elena je yll", "Uff e humba"];
+
+    // HIDE SPLASH SCREEN
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+            }, 800);
+        }, 2500);
+    });
 
     function nav(id) {
+        clearInterval(chatInterval);
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
+        if(id === 'page-lobby') document.querySelector('.nav-item:nth-child(1)').classList.add('active-nav');
     }
 
-    function auth() {
-        let u = document.getElementById('in-user').value;
-        let p = document.getElementById('in-pass').value;
-        if(u.length < 2) return alert("Shkruaj emrin!");
-        if(!db[u]) db[u] = { pass: p, credits: 1000, xp: 0, last: 0 };
+    function login() {
+        let u = document.getElementById('username').value.trim();
+        if(u.length < 2) return alert("Hyrni një emër!");
+        if(!users[u]) users[u] = { credits: 1000, last: 0 };
         current = u;
-        document.getElementById('ui-stats').style.display = 'block';
-        sync();
+        document.getElementById('ui-balance').style.display = 'block';
+        document.getElementById('bot-nav').style.display = 'flex';
+        save();
         nav('page-lobby');
     }
 
-    function sync() {
-        document.getElementById('player-name').innerText = current.toUpperCase();
-        document.getElementById('player-credits').innerText = "$" + db[current].credits;
-        localStorage.setItem('alb_v2', JSON.stringify(db));
+    function save() {
+        document.getElementById('top-bal').innerText = "$" + users[current].credits.toLocaleString();
+        localStorage.setItem('alb_final_v1', JSON.stringify(users));
     }
 
-    function openGame(type) {
+    function showRank() {
+        nav('page-rank');
+        const display = document.getElementById('rank-display');
+        display.innerHTML = "";
+        let all = [...bots, ...Object.keys(users).map(n => ({name: n, credits: users[n].credits}))].sort((a,b) => b.credits - a.credits);
+        all.forEach((p, i) => {
+            display.innerHTML += `<div style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid #222; background:${p.name === current ? 'rgba(212,175,55,0.1)' : ''}"><span>${i+1}. ${p.name}</span><b>$${p.credits.toLocaleString()}</b></div>`;
+        });
+    }
+
+    function openGame(type, dealer, img) {
         nav('page-game');
-        document.getElementById('game-title').innerText = type;
-        const table = document.getElementById('table');
-        const ctrl = document.getElementById('controls');
-        table.innerHTML = ""; ctrl.innerHTML = "";
-
-        if(type === 'Roulette') {
-            table.innerHTML = `<div class="roulette-pointer"></div><div class="roulette-wheel" id="wheel"></div><div id="res" style="margin-top:20px; font-weight:800;"></div>`;
-            ctrl.innerHTML = `<button class="btn-main" onclick="playR('Red')" style="background:#e00; margin-bottom:5px;">RED</button><button class="btn-main" onclick="playR('Black')" style="background:#000; border:1px solid #333;">BLACK</button>`;
-        }
-        else if(type === 'Blackjack') {
-            table.innerHTML = `<div id="dealer-side">Dealer: ?</div><div id="player-side" style="margin-top:40px;">Ti: ?</div>`;
-            ctrl.innerHTML = `<button class="btn-main" id="deal-btn" onclick="startBJ()">DEAL ($50)</button><div id="bj-act" style="display:none;"><button class="btn-main" onclick="bjHit()" style="width:48%; display:inline-block;">HIT</button><button class="btn-main" onclick="bjStay()" style="width:48%; display:inline-block; margin-left:2%;">STAY</button></div>`;
-        }
-        else if(type === 'Slots') {
-            table.innerHTML = `<div class="reels-container"><div class="reel" id="r1">🎰</div><div class="reel" id="r2">🎰</div><div class="reel" id="r3">🎰</div></div>`;
-            ctrl.innerHTML = `<button class="btn-main" id="spin-btn" onclick="playSlots()">SPIN ($10)</button>`;
-        }
-        else if(type === 'Bingo') {
-            table.innerHTML = `<div style="width:120px; height:120px; border:5px solid gold; border-radius:50%; margin: 0 auto; line-height:110px; font-size:50px; background:#000;" id="bingo-ball">?</div>`;
-            ctrl.innerHTML = `<button class="btn-main" onclick="playBingo()">TËRHIQ ($20)</button>`;
-        }
-    }
-
-    // --- LOGJIKA E RREGULLUAR VIZUALE ---
-
-    function playR(bet) {
-        if(db[current].credits < 20) return;
-        db[current].credits -= 20; sync();
-        const wheel = document.getElementById('wheel');
-        const deg = 1800 + Math.floor(Math.random() * 360);
-        wheel.style.transform = `rotate(${deg}deg)`;
+        document.getElementById('table-view').innerHTML = `<div style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); background-image:url('${img}'); background-size:cover; margin-bottom:10px;"></div><div id="p-hand"></div>`;
+        document.getElementById('game-ctrl').innerHTML = `<button class="play-btn" onclick="deal()">PLACE BET $100</button>`;
         
-        setTimeout(() => {
-            let win = Math.random() > 0.5 ? 'Red' : 'Black';
-            if(bet === win) { db[current].credits += 40; alert("FITORE! Rrota ndaloi në " + win); }
-            else { alert("HUMBJE! Ishte " + win); }
-            sync();
-        }, 4000);
+        chatInterval = setInterval(() => {
+            const chat = document.getElementById('chat-content');
+            const bot = bots[Math.floor(Math.random()*bots.length)].name;
+            const msg = messages[Math.floor(Math.random()*messages.length)];
+            const div = document.createElement('div');
+            div.className = 'chat-msg';
+            div.innerHTML = `<b>${bot}:</b> ${msg}`;
+            chat.prepend(div);
+        }, 3000);
     }
 
-    function startBJ() {
-        if(db[current].credits < 50) return;
-        db[current].credits -= 50; sync();
-        document.getElementById('deal-btn').style.display = 'none';
-        document.getElementById('bj-act').style.display = 'block';
-        window.bjP = Math.floor(Math.random()*10)+12;
-        document.getElementById('player-side').innerHTML = `Ti: ${window.bjP}<br><div class="card-visual">J</div><div class="card-visual">${window.bjP-10}</div>`;
+    function deal() {
+        if(users[current].credits < 100) return alert("S'ke kredi!");
+        users[current].credits -= 100; save();
+        document.getElementById('p-hand').innerHTML = `<div style="display:inline-block; background:white; color:black; padding:15px; border-radius:5px; margin:5px; font-weight:900;">A</div><div style="display:inline-block; background:white; color:black; padding:15px; border-radius:5px; margin:5px; font-weight:900;">K</div>`;
+        setTimeout(() => { alert("BLACKJACK! +$300"); users[current].credits += 300; save(); nav('page-lobby'); }, 1000);
     }
 
-    function bjStay() {
-        let d = Math.floor(Math.random()*10)+13;
-        alert("Dealer kishte: " + d);
-        if(window.bjP > d || d > 21) { db[current].credits += 100; alert("FITORE!"); }
-        else { alert("HUMBJE!"); }
-        openGame('Blackjack'); sync();
-    }
-
-    function playSlots() {
-        if(db[current].credits < 10) return;
-        db[current].credits -= 10; sync();
-        let syms = ['💎','🍒','🔔','7️⃣','🍋'];
-        let i = 0;
-        let iv = setInterval(() => {
-            document.getElementById('r1').innerText = syms[Math.floor(Math.random()*5)];
-            document.getElementById('r2').innerText = syms[Math.floor(Math.random()*5)];
-            document.getElementById('r3').innerText = syms[Math.floor(Math.random()*5)];
-            i++;
-            if(i > 10) {
-                clearInterval(iv);
-                if(document.getElementById('r1').innerText === document.getElementById('r2').innerText) {
-                    db[current].credits += 100; alert("FITORE!");
-                }
-                sync();
-            }
-        }, 100);
-    }
-
-    function playBingo() {
-        if(db[current].credits < 20) return;
-        db[current].credits -= 20;
-        let n = Math.floor(Math.random()*90)+1;
-        document.getElementById('bingo-ball').innerText = n;
-        if(n % 10 === 0) { db[current].credits += 100; alert("BONUS BINGO!"); }
-        sync();
-    }
-
-    function daily() {
-        let u = db[current];
-        if(Date.now() - u.last > 86400000) {
-            u.credits += 200; u.last = Date.now();
-            alert("More $200!"); sync();
-        } else alert("Kthehu nesër!");
-    }
-
-    function showInfo(t) {
-        nav('page-info');
-        const c = document.getElementById('info-content');
-        if(t === 'about') c.innerHTML = "<h2>About ALB CASINO</h2><p>Ne jemi platforma lider për argëtim live...</p>";
-        if(t === 'contact') c.innerHTML = "<h2>Contact</h2><p>Email: support@albcasino.com<br>Viber/WhatsApp: +355 XX XXX XXXX</p>";
-        if(t === 'privacy') c.innerHTML = "<h2>Privacy</h2><p>Të dhënat tuaja janë 100% të sigurta me enkriptimin tonë SSL.</p>";
+    function getBonus() {
+        let u = users[current];
+        if(Date.now() - u.last > 86400000) { u.credits += 200; u.last = Date.now(); alert("Bonus ditor $200 u shtua!"); save(); }
+        else alert("Kthehu nesër për bonusin e rradhës!");
     }
 </script>
 </body>
