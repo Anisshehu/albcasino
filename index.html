@@ -54,7 +54,29 @@
         .match-card { background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
         .odds-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
         .odd-btn { background: white; border: 1px solid var(--blue); padding: 10px; text-align: center; border-radius: 5px; color: var(--blue); font-weight: bold; font-size: 13px; }
-
+<section id="page-slots" class="page">
+    <div class="game-card">
+        <div class="game-info">
+            <div class="game-name">Gates of Olympus</div>
+            <div class="game-meta">Pragmatic Play | Multiplier x5000</div>
+        </div>
+        <button class="btn-play" onclick="play('Slots')">Spin</button>
+    </div>
+    <div class="game-card">
+        <div class="game-info">
+            <div class="game-name">Sweet Bonanza</div>
+            <div class="game-meta">High Volatility | Free Spins</div>
+        </div>
+        <button class="btn-play" onclick="play('Sweet Bonanza')">Spin</button>
+    </div>
+    <div class="game-card">
+        <div class="game-info">
+            <div class="game-name">Sugar Rush</div>
+            <div class="game-meta">Cluster Pays | Jackpot</div>
+        </div>
+        <button class="btn-play" onclick="play('Sugar Rush')">Spin</button>
+    </div>
+</section>
         /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 10px 0 25px; z-index: 1000; }
         .nav-item { border: none; background: none; color: var(--blue); font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; opacity: 0.5; }
