@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALB CASINO - Absolute Legend</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/FFD700/000000?text=ALB">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background: radial-gradient(circle, #1a1a1a 0%, #000 100%); color: white; min-height: 100vh; overflow-x: hidden; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255, 215, 0, 0.3); background: rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 22px; font-weight: 800; color: gold; letter-spacing: 2px; }
+
+        /* Login & Menu Section */
+        .auth-links { font-size: 11px; margin-top: 5px; }
+        .auth-links a { color: gold; text-decoration: none; margin-right: 10px; opacity: 0.8; }
+
+        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .hero h1 { font-size: 40px; background: linear-gradient(90deg, #FFD700, #fff, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+
+        /* Game Container */
+        #slot-container { display: none; text-align: center; padding: 20px; animation: fadeIn 0.5s; }
+        .slot-machine { background: #111; border: 3px solid gold; border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); max-width: 400px; margin: 0 auto; }
+        .reels { font-size: 45px; background: #000; padding: 15px; border-radius: 10px; margin: 15px 0; border: 1px solid #333; }
+
+        /* XP & Progress */
+        .xp-container { width: 100%; background: #333; height: 8px; border-radius: 4px; margin: 10px 0; overflow: hidden; }
+        .xp-bar { width: 0%; height: 100%; background: gold; transition: width 0.3s; }
+        
+        /* Buttons */
+        .btn { padding: 12px 30px; border-radius: 25px; border: 2px solid gold; background: transparent; color: gold; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 12px; }
+        .btn:hover { background: gold; color: black; box-shadow: 0 0 15px gold; }
+
+        /* Sidebar/Menu Overlay */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .menu-btn { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: white; padding: 10px; border-radius: 10px; font-size: 10px; cursor: pointer; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        footer { text-align: center; padding: 20px; font-size: 10px; opacity: 0.4; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <div class="logo">ALB CASINO</div>
+            <div class="auth-links">
+                <a href="#" onclick="alert('Log In do të hapet së shpejti...')">LOG IN</a>
+                <a href="#" onclick="alert('Regjistrimi: Na dërgoni një email në support@albcasino.com')">REGISTER NOW</a>
+            </div>
+        </div>
+        <div id="status" style="text-align: right;">
+            <div id="top-level" style="color: white; font-size: 11px; font-weight: bold;">LVL 1</div>
+            <div id="top-credits" style="color: gold; font-weight: bold;">$1000</div>
+        </div>
+    </header>
+
+    <section class="hero" id="main-screen">
+        <h1>WELCOME</h1>
+        <p style="margin-bottom: 25px; opacity: 0.7;">Absolute Legend Mode</p>
+        <button class="btn" onclick="startGame()">ENTER CASINO</button>
+        
+        <div style="margin-top: 30px; font-size: 11px;">
+            <a href="#" onclick="alert('Instruksionet: Shtyp SPIN, mbledh 3 rreshta njësoj për të fituar Jackpot-in!')" style="color:white; margin-right: 15px;">Need Help?</a>
+            <a href="#" onclick="alert('Shërbimi për harresën e fjalëkalimit nuk është aktiv në versionin Demo.')" style="color:white;">Forgot Password?</a>
+        </div>
+    </section>
+
+    <section id="slot-container">
+        <div id="credit-val" style="font-size: 22px; color: gold; font-weight: 800;">$1000</div>
+        <div id="rank-name" style="font-size: 11px; color: gold; margin-bottom: 5px;">RANK: NEWBIE</div>
+        <div class="xp-container"><div class="xp-bar" id="xp-bar"></div></div>
+        
+        <div class="slot-machine">
+            <div class="reels" id="reels">🎰 | 🎰 | 🎰</div>
+            <button class="btn" id="spin-btn" onclick="spin()">SPIN ($10)</button>
+            <p id="msg" style="margin-top: 15px; font-size: 13px; height: 20px; color: #fff;"></p>
+        </div>
+
+        <div class="menu-grid">
+            <button class="menu-btn" onclick="referFriend()">👥 REFER A FRIEND</button>
+            <button class="menu-btn" onclick="shareGame()">📤 SHARE TO FRIEND</button>
+            <button class="menu-btn" onclick="alert('VIP Lounge hapet në nivelin 10!')">💎 VIP CLUB</button>
+            <button class="menu-btn" onclick="location.reload()">🔒 LOG OUT</button>
+        </div>
+    </section>
+
+    <footer>© 2026 ALB CASINO — Absolute Legend Mode</footer>
+
+    <script>
+        let credits = localStorage.getItem('alb_credits') ? parseInt(localStorage.getItem('alb_credits')) : 1000;
+        let xp = localStorage.getItem('alb_xp') ? parseInt(localStorage.getItem('alb_xp')) : 0;
+        const symbols = ['🍒', '🍋', '🔔', '💎', '7️⃣'];
+        const ranks = ["Newbie", "Gambler", "High Roller", "VIP", "Elite", "ABSOLUTE LEGEND"];
+
+        function updateUI(message = "") {
+            let level = Math.floor(xp / 100) + 1;
+            let rankIndex = Math.min(level - 1, ranks.length - 1);
+            
+            document.getElementById('credit-val').innerText = `$${credits}`;
+            document.getElementById('top-credits').innerText = `$${credits}`;
+            document.getElementById('top-level').innerText = `LVL ${level}`;
+            document.getElementById('rank-name').innerText = `RANK: ${ranks[rankIndex]}`;
+            document.getElementById('xp-bar').style.width = `${xp % 100}%`;
+            document.getElementById('msg').innerText = message;
+
+            localStorage.setItem('alb_credits', credits);
+            localStorage.setItem('alb_xp', xp);
+        }
+
+        function startGame() {
+            document.getElementById('main-screen').style.display = 'none';
+            document.getElementById('slot-container').style.display = 'block';
+            updateUI();
+        }
+
+        function spin() {
+            if (credits < 10) { alert("Nuk ke kredi!"); return; }
+            credits -= 10;
+            xp += 10;
+            
+            const btn = document.getElementById('spin-btn');
+            btn.disabled = true;
+            let count = 0;
+            let interval = setInterval(() => {
+                const r = [symbols[Math.floor(Math.random()*5)], symbols[Math.floor(Math.random()*5)], symbols[Math.floor(Math.random()*5)]];
+                document.getElementById('reels').innerText = r.join(' | ');
+                count++;
+                if(count > 8) {
+                    clearInterval(interval);
+                    finalize(r);
+                    btn.disabled = false;
+                }
+            }, 100);
+        }
+
+        function finalize(r) {
+            if(r[0] === r[1] && r[1] === r[2]) {
+                credits += 500; xp += 40; updateUI("JACKPOT! +$500 🎉");
+            } else { updateUI("Provo përsëri!"); }
+        }
+
+        function referFriend() {
+            let code = Math.random().toString(36).substring(7).toUpperCase();
+            alert("Kodi yt i referimit: " + code + "\nShpërndajeni këtë kod dhe fitoni $100 kur shoku juaj regjistrohet!");
+        }
+
+        function shareGame() {
+            if (navigator.share) {
+                navigator.share({ title: 'ALB CASINO', text: 'Eja luaj në kazinonë më të re!', url: window.location.href });
+            } else {
+                alert("Kopjo linkun tonë: " + window.location.href);
+            }
+        }
+    </script>
+</body>
+</html>
