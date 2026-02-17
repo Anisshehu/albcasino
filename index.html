@@ -3,234 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALB CASINO | Official App</title>
+    <title>ALB CASINO | Espacejeux Studio</title>
     
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/W7S5XmX.png">
-
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #003399; --dark-blue: #002266; --gold: #d4af37; --bg: #f4f7ff; }
+        :root { --blue: #003399; --dark-blue: #001a4d; --grey: #f4f4f4; --border: #dee2e6; --gold: #fbc02d; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--bg); color: #333; overflow-x: hidden; padding-bottom: 80px; }
+        body { background: white; color: #333; padding-bottom: 80px; overflow-x: hidden; }
 
-        /* SPLASH SCREEN */
-        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.8s; }
-        .splash-logo { font-size: 30px; font-weight: 900; color: var(--gold); letter-spacing: 5px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
+        /* HEADER */
+        header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo { font-weight: 900; font-size: 18px; letter-spacing: 1px; }
+        .bal-display { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; }
 
-        /* HEADER & NAVIGATION */
-        header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .logo { font-weight: 900; font-size: 20px; letter-spacing: 1px; }
-        .balance-pill { background: rgba(255,255,255,0.2); padding: 6px 15px; border-radius: 20px; font-weight: 800; border: 1px solid rgba(255,255,255,0.3); }
+        /* SIDEBAR MENU (IMG_4800 / 4801) */
+        #sidebar { position: fixed; left: -100%; top: 0; width: 85%; height: 100%; background: white; z-index: 2000; transition: 0.3s; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
+        #sidebar.active { left: 0; }
+        .side-head { background: var(--blue); color: white; padding: 20px; font-weight: bold; display: flex; justify-content: space-between; }
+        .side-sect { padding: 15px 0; border-bottom: 1px solid #eee; }
+        .side-title { color: var(--blue); font-size: 12px; font-weight: 900; padding-left: 20px; text-transform: uppercase; border-bottom: 2px solid var(--blue); display: inline-block; margin-left: 20px; margin-bottom: 10px; }
+        .side-link { padding: 12px 40px; display: block; color: #333; text-decoration: none; font-size: 15px; }
+        .side-link:active { background: #f0f0f0; }
 
-        .sub-nav { display: flex; background: white; border-bottom: 1px solid #ddd; overflow-x: auto; sticky; top: 54px; z-index: 900; }
-        .sub-item { padding: 15px 20px; font-size: 12px; font-weight: bold; color: var(--blue); text-align: center; white-space: nowrap; opacity: 0.6; }
-        .sub-item.active { opacity: 1; border-bottom: 3px solid var(--blue); }
+        /* NAVIGATION TABS */
+        .sub-nav { display: flex; background: var(--grey); border-bottom: 1px solid var(--border); overflow-x: auto; white-space: nowrap; sticky; top: 54px; z-index: 999; }
+        .sub-link { padding: 15px 20px; font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; border-bottom: 3px solid transparent; opacity: 0.7; }
+        .sub-link.active { opacity: 1; border-bottom-color: var(--blue); }
 
-        /* PAGE SYSTEM */
-        .page { display: none; padding: 15px; animation: fadeIn 0.3s ease; }
+        /* PAGES */
+        .page { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* GAME ROWS (CASINO & LOTTERY) */
-        .game-row { background: white; border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .game-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #eee; object-fit: cover; }
-        .game-info { flex: 1; margin-left: 15px; }
-        .game-title { font-weight: bold; color: var(--blue); font-size: 15px; }
-        .game-subtitle { font-size: 11px; color: #777; margin-top: 2px; }
-        .btn-play { border: 2px solid var(--blue); color: var(--blue); background: transparent; padding: 6px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; }
+        /* GAME CARDS (IMG_4795) */
+        .game-card { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; background: white; }
+        .game-thumb { width: 60px; height: 60px; border-radius: 50%; border: 1px solid #ddd; object-fit: cover; }
+        .game-info { flex: 1; padding-left: 15px; }
+        .game-name { font-weight: bold; color: var(--blue); font-size: 15px; }
+        .game-meta { font-size: 11px; color: #777; }
+        .btn-play { border: 2px solid var(--blue); color: var(--blue); background: none; padding: 6px 20px; border-radius: 20px; font-weight: 900; font-size: 12px; }
 
-        /* SCRATCH CARD MODAL */
-        #scratch-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; }
-        canvas { background: #eee; border-radius: 10px; cursor: crosshair; touch-action: none; }
+        /* LOTTERY GRID (IMG_4802) */
+        .lotto-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        .lotto-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; background: #fafafa; }
+        .lotto-name { font-weight: 900; color: var(--blue); font-size: 18px; display: block; }
+        .lotto-jackpot { color: #d32f2f; font-weight: bold; font-size: 14px; display: block; margin-top: 5px; }
 
-        /* SPORTS BETTING */
-        .match-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
-        .odds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .odd-box { background: #f0f4f8; border: 1px solid var(--blue); padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; color: var(--blue); font-size: 14px; }
+        /* SPORTS (MISE-O-JEU) */
+        .match-card { background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
+        .odds-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .odd-btn { background: white; border: 1px solid var(--blue); padding: 10px; text-align: center; border-radius: 5px; color: var(--blue); font-weight: bold; font-size: 13px; }
 
-        /* POKER TABLE */
-        .poker-item { background: #fffde7; border: 1px solid #fbc02d; padding: 12px; border-radius: 8px; margin-bottom: 10px; }
-
-        /* PROFILE & HISTORY */
-        .history-item { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; border-left: 4px solid var(--blue); }
-        .win { border-left-color: #28a745; }
-        .loss { border-left-color: #dc3545; }
-
-        /* BOTTOM NAV BAR */
-        .bottom-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0 25px; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-btn { background: none; border: none; color: var(--blue); font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; opacity: 0.5; }
-        .nav-btn.active { opacity: 1; }
-        .nav-btn i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
+        /* BOTTOM NAV */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 10px 0 25px; z-index: 1000; }
+        .nav-item { border: none; background: none; color: var(--blue); font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; opacity: 0.5; }
+        .nav-item.active { opacity: 1; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
     </style>
 </head>
 <body>
 
-<div id="splash">
-    <div class="splash-logo">ALB CASINO</div>
-    <p style="color: #444; margin-top: 10px; font-size: 12px; letter-spacing: 2px;">LOADING STUDIO...</p>
+<div id="sidebar">
+    <div class="side-head"><span>MENU</span> <span onclick="toggleMenu()">✕</span></div>
+    <div class="side-sect">
+        <div class="side-title">IN STORE</div>
+        <a href="#" class="side-link" onclick="nav('lottery')">Lotteries</a>
+        <a href="#" class="side-link" onclick="nav('sports')">Mise-o-jeu</a>
+    </div>
+    <div class="side-sect">
+        <div class="side-title">ONLINE</div>
+        <a href="#" class="side-link" onclick="nav('lottery')">Online Lotteries</a>
+        <a href="#" class="side-link" onclick="nav('casino')">Live Casino</a>
+        <a href="#" class="side-link" onclick="nav('slots')">Slot Machines</a>
+        <a href="#" class="side-link" onclick="nav('poker')">Poker</a>
+        <a href="#" class="side-link" onclick="nav('bingo')">Bingo / Kinzo</a>
+    </div>
 </div>
 
 <header>
+    <div onclick="toggleMenu()" style="cursor:pointer; font-size:20px;">☰</div>
     <div class="logo">ALB CASINO</div>
-    <div class="balance-pill" id="main-bal">$1,000.00</div>
+    <div class="bal-display" id="balance">$1,000.00</div>
 </header>
 
 <div class="sub-nav">
-    <div class="sub-item active" onclick="nav('casino', this)">LIVE CASINO</div>
-    <div class="sub-item" onclick="nav('lottery', this)">LOTTERIES</div>
-    <div class="sub-item" onclick="nav('sports', this)">SPORTS</div>
-    <div class="sub-item" onclick="nav('poker', this)">POKER</div>
+    <div class="sub-link active" onclick="nav('casino', this)">Live Casino</div>
+    <div class="sub-link" onclick="nav('slots', this)">Slots</div>
+    <div class="sub-link" onclick="nav('lottery', this)">Lotto</div>
+    <div class="sub-link" onclick="nav('sports', this)">Sports</div>
+    <div class="sub-link" onclick="nav('bingo', this)">Bingo</div>
 </div>
 
-<section id="casino" class="page active">
-    <div class="game-row">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" class="game-img">
-        <div class="game-info"><div class="game-title">Crazy Time Live</div><div class="game-subtitle">20¢ to $3,000 | 12K Players</div></div>
-        <button class="btn-play" onclick="openGame('Crazy Time')">Play</button>
+<section id="page-casino" class="page active">
+    <div class="game-card">
+        <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=100" class="game-thumb">
+        <div class="game-info"><div class="game-name">Crazy Time</div><div class="game-meta">20¢ - $3,000 | 11k Players</div></div>
+        <button class="btn-play" onclick="play('Crazy Time')">Play</button>
     </div>
-    <div class="game-row">
-        <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=100" class="game-img">
-        <div class="game-info"><div class="game-title">Lightning Roulette</div><div class="game-subtitle">20¢ to $5,000 | 1.5K Players</div></div>
-        <button class="btn-play" onclick="openGame('Roulette')">Play</button>
+    <div class="game-card">
+        <img src="https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=100" class="game-thumb">
+        <div class="game-info"><div class="game-name">Red Door Roulette</div><div class="game-meta">20¢ - $5,000 | 1.5k Players</div></div>
+        <button class="btn-play" onclick="play('Roulette')">Play</button>
     </div>
 </section>
 
-<section id="lottery" class="page">
-    <div class="game-row">
-        <div class="game-img" style="background:linear-gradient(45deg, #003399, #00aaff); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">Gv</div>
-        <div class="game-info"><div class="game-title">Gagnant à vie</div><div class="game-subtitle">$5.00 - Scratch to Win!</div></div>
-        <button class="btn-play" onclick="buyTicket('Gagnant à vie', 5)">Buy</button>
+<section id="page-slots" class="page">
+    <div class="game-card">
+        <div class="game-info"><div class="game-name">88 Fortunes</div><div class="game-meta">Jackpot: $10,500.00</div></div>
+        <button class="btn-play" onclick="play('Slots')">Spin</button>
+    </div>
+    <div class="game-card">
+        <div class="game-info"><div class="game-name">Bonanza</div><div class="game-meta">Megaways | High Volatility</div></div>
+        <button class="btn-play" onclick="play('Slots')">Spin</button>
+    </div>
+</section>
+
+<section id="page-lottery" class="page">
+    <div class="lotto-grid">
+        <div class="lotto-card"><span class="lotto-name">6/49</span><span class="lotto-jackpot">$5M</span><button class="btn-play" style="margin-top:10px" onclick="buy(5)">Buy</button></div>
+        <div class="lotto-card"><span class="lotto-name">MAX</span><span class="lotto-jackpot">$70M</span><button class="btn-play" style="margin-top:10px" onclick="buy(5)">Buy</button></div>
+        <div class="lotto-card"><span class="lotto-name">GRANDE</span><span class="lotto-jackpot">$1k/DITË</span><button class="btn-play" style="margin-top:10px" onclick="buy(3)">Buy</button></div>
+        <div class="lotto-card"><span class="lotto-name">BANCO</span><span class="lotto-jackpot">WIN X10</span><button class="btn-play" style="margin-top:10px" onclick="buy(2)">Buy</button></div>
     </div>
 </section>
 
 <section id="page-sports" class="page">
     <div class="match-card">
-        <div style="font-size:12px; color:#666; margin-bottom:5px;">Champions League • 21:00</div>
-        <div style="font-weight:bold;">Real Madrid vs Man. City</div>
-        <div class="odds-grid">
-            <div class="odd-box" onclick="placeBet('Real Madrid', 2.40)">1<br>2.40</div>
-            <div class="odd-box" onclick="placeBet('Draw', 3.50)">X<br>3.50</div>
-            <div class="odd-box" onclick="placeBet('Man. City', 2.15)">2<br>2.15</div>
+        <div style="font-size:11px; color:#777;">CHAMPIONS LEAGUE</div>
+        <div style="font-weight:bold; margin:5px 0;">Arsenal vs Bayern</div>
+        <div class="odds-row">
+            <div class="odd-btn" onclick="bet('Arsenal', 1.90)">1<br>1.90</div>
+            <div class="odd-btn" onclick="bet('Barazim', 3.40)">X<br>3.40</div>
+            <div class="odd-btn" onclick="bet('Bayern', 3.80)">2<br>3.80</div>
         </div>
     </div>
 </section>
 
-<section id="page-poker" class="page">
-    <div class="poker-item">
-        <div style="font-weight:bold; color:var(--blue);">Texas Holdem Turbo</div>
-        <div style="font-size:12px; margin:5px 0;">Buy-in: $10.00 + $1.00</div>
-        <button class="btn-play" style="width:100%; border-radius:5px;" onclick="alert('Regjistrimi u krye!')">Register</button>
+<section id="page-bingo" class="page">
+    <div class="game-card">
+        <div class="game-info"><div class="game-name">Bingo en ligne</div><div class="game-meta">Next draw: 01:20</div></div>
+        <button class="btn-play" onclick="play('Bingo')">Join</button>
+    </div>
+    <div class="game-card">
+        <div class="game-info"><div class="game-name">Kinzo Live</div><div class="game-meta">Fast action bingo</div></div>
+        <button class="btn-play" onclick="play('Kinzo')">Play</button>
     </div>
 </section>
 
-<section id="page-profile" class="page">
-    <div style="text-align:center; padding:20px;">
-        <div style="width:70px; height:70px; background:var(--blue); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; margin:0 auto; font-weight:bold;">A</div>
-        <h3 style="margin-top:10px;">User_777</h3>
-    </div>
-    <h4 style="margin:10px 0;">Transaction History</h4>
-    <div id="history-list"></div>
-</section>
-
-<div id="scratch-overlay">
-    <h2 id="scr-title">Scratch & Win!</h2>
-    <div style="position:relative; margin:20px 0;">
-        <div id="prize-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:black; font-size:30px; font-weight:900; z-index:1;">$0.00</div>
-        <canvas id="scratch-canvas" width="280" height="150" style="position:relative; z-index:2;"></canvas>
-    </div>
-    <button id="close-scr" style="display:none; padding:12px 30px; border-radius:25px; background:white; color:var(--blue); border:none; font-weight:bold;">CLAIM PRIZE</button>
-</div>
-
-<nav class="bottom-bar">
-    <button class="nav-btn active" onclick="nav('casino', this)"><i>🏠</i>Home</button>
-    <button class="nav-btn" onclick="nav('lottery', this)"><i>🎰</i>Games</button>
-    <button class="nav-btn" onclick="nav('sports', this)"><i>⚽</i>Sports</button>
-    <button class="nav-btn" onclick="showProfile(this)"><i>👤</i>Profile</button>
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="nav('casino', this)"><i>🏠</i>Home</button>
+    <button class="nav-item" onclick="nav('slots', this)"><i>🎰</i>Slots</button>
+    <button class="nav-item" onclick="nav('lottery', this)"><i>🎫</i>Lotto</button>
+    <button class="nav-item" onclick="nav('sports', this)"><i>⚽</i>Sports</button>
 </nav>
 
 <script>
     let bal = 1000.00;
-    let history = [];
 
-    // Splash Loader
-    window.onload = () => { setTimeout(() => document.getElementById('splash').style.opacity = '0', 2000); setTimeout(() => document.getElementById('splash').style.display = 'none', 2800); };
+    function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
 
     function nav(id, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const target = (id === 'sports' || id === 'poker' || id === 'profile') ? 'page-'+id : id;
-        document.getElementById(target).classList.add('active');
-        document.querySelectorAll('.nav-btn, .sub-item').forEach(b => b.classList.remove('active'));
+        document.getElementById('page-' + id).classList.add('active');
+        document.querySelectorAll('.sub-link, .nav-item').forEach(l => l.classList.remove('active'));
         if(el) el.classList.add('active');
+        if(document.getElementById('sidebar').classList.contains('active')) toggleMenu();
     }
 
-    function updateBal() { 
-        document.getElementById('main-bal').innerText = "$" + bal.toLocaleString(undefined, {minimumFractionDigits:2});
-        updateHistoryUI();
+    function updateUI() {
+        document.getElementById('balance').innerText = "$" + bal.toLocaleString(undefined, {minimumFractionDigits: 2});
     }
 
-    function logH(type, amt, stat) {
-        history.unshift({type, amt, stat, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
-        updateHistoryUI();
+    function play(game) {
+        if(bal < 1) return alert("Fonde të pamjaftueshme!");
+        bal -= 1.00; updateUI();
+        alert("Duke hapur " + game + "...");
     }
 
-    function updateHistoryUI() {
-        const list = document.getElementById('history-list');
-        if(!list) return;
-        list.innerHTML = history.map(h => `<div class="history-item ${h.stat}"><div class="h-info"><b>${h.type}</b><br><small>${h.time}</small></div><div class="h-amt" style="color:${h.stat==='win'?'green':'red'}">${h.stat==='win'?'+':'-'}$${h.amt}</div></div>`).join('');
+    function buy(price) {
+        if(bal < price) return alert("Fonde të pamjaftueshme!");
+        bal -= price; updateUI();
+        alert("Bileta u ble me sukses!");
     }
 
-    // LOTTERY SCRATCH LOGIC
-    function buyTicket(name, price) {
-        if(bal < price) return alert("No funds!");
-        bal -= price; logH(name, price, 'loss'); updateBal();
-        const win = (Math.random() > 0.7) ? (Math.random()*50).toFixed(2) : "0.00";
-        document.getElementById('prize-text').innerText = "$" + win;
-        document.getElementById('scratch-overlay').style.display = 'flex';
-        initScratch(win);
+    function bet(team, odd) {
+        let amount = prompt("Vendos shumën për " + team + ":", "10");
+        if(!amount || bal < amount) return;
+        bal -= amount; updateUI();
+        alert("Basti u vendos! Fitimi i mundshëm: $" + (amount * odd).toFixed(2));
     }
-
-    function initScratch(win) {
-        const canvas = document.getElementById('scratch-canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0,0,280,150);
-        ctx.fillStyle = '#666'; ctx.font = "20px Roboto"; ctx.fillText("SCRATCH HERE", 70, 80);
-        
-        let paint = false;
-        const scratch = (e) => {
-            if(!paint) return;
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.pageX || e.touches[0].pageX) - rect.left;
-            const y = (e.pageY || e.touches[0].pageY) - rect.top;
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
-            document.getElementById('close-scr').style.display = 'block';
-        };
-        canvas.onmousedown = canvas.ontouchstart = () => paint = true;
-        window.onmouseup = window.ontouchend = () => paint = false;
-        canvas.onmousemove = canvas.ontouchmove = scratch;
-
-        document.getElementById('close-scr').onclick = () => {
-            if(parseFloat(win) > 0) { bal += parseFloat(win); logH("Winner!", win, 'win'); updateBal(); }
-            document.getElementById('scratch-overlay').style.display = 'none';
-            document.getElementById('close-scr').style.display = 'none';
-        };
-    }
-
-    function placeBet(team, odd) {
-        let amt = prompt("Stake for " + team + ":", "10");
-        if(!amt || bal < amt) return;
-        bal -= amt; logH("Bet: "+team, amt, 'loss'); updateBal();
-        alert("Bet Placed! Potential Win: $" + (amt*odd).toFixed(2));
-    }
-
-    function openGame(n) { alert("Opening " + n + " Studio..."); logH(n + " Entry", 1.00, 'loss'); bal -= 1; updateBal(); }
-    
-    function showProfile(el) { nav('profile', el); updateHistoryUI(); }
 </script>
+
 </body>
 </html>
